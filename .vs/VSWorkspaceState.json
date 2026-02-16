@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\.github",
+    "\\.github\\workflows"
   ],
-  "SelectedNode": "\\script.js",
+  "SelectedNode": "\\.github\\workflows\\docker-publish.yml",
   "PreviewInSolutionExplorer": false
 }
