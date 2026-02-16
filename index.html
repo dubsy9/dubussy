@@ -10,26 +10,25 @@
     <link href="./style.css" rel="stylesheet" />
 </head>
 <body>
-    <div id="app-container">
-        <nav id="sidebar">
-            <div class="sidebar-header">
-                <h2>Dubussy</h2>
+    <div id="app-wrapper">
+        <aside id="sidebar">
+            <div class="logo">Dubussy</div>
+
+            <div class="nav-group">
+                <p class="label">AI Assistant</p>
+                <button class="nav-item active" onclick="loadBot('Basic Bitch', 'https://n8n.dubussy.com/webhook/3d3a3ef1-80b4-4e08-9c7a-29ddd483e41f/chat', this)">
+                    💬 Basic Bitch
+                </button>
             </div>
 
-            <div class="nav-section">
-                <span class="section-label">AI ASSISTANTS</span>
-                <button class="nav-btn active" onclick="loadBot('Basic Bitch', 'https://n8n.dubussy.com/webhook/3d3a3ef1-80b4-4e08-9c7a-29ddd483e41f/chat', this)">💬 Basic Bitch</button>
-                <button class="nav-btn" onclick="loadBot('Toodles', 'https://n8n.dubussy.com/webhook/e828906b-4152-4718-8c6f-6ebe4055107c/chat', this)">🐶 Toodles</button>
+            <div class="nav-group">
+                <p class="label">Links</p>
+                <a href="https://comfy.dubussy.com" target="_blank" class="nav-item">🎨 ComfyUI</a>
+                <a href="https://n8n.dubussy.com" target="_blank" class="nav-item">⚙️ Admin</a>
             </div>
+        </aside>
 
-            <div class="nav-section">
-                <span class="section-label">EXTERNAL</span>
-                <a href="https://comfy.dubussy.com" target="_blank" class="nav-btn">🎨 ComfyUI</a>
-                <a href="https://n8n.dubussy.com" target="_blank" class="nav-btn">⚙️ Admin</a>
-            </div>
-        </nav>
-
-        <main id="main-content">
+        <main id="content">
             <div id="chat-container"></div>
         </main>
     </div>
