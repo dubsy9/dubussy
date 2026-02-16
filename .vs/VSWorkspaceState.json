@@ -1,9 +1,0 @@
-{
-  "ExpandedNodes": [
-    "",
-    "\\.github",
-    "\\.github\\workflows"
-  ],
-  "SelectedNode": "\\.github\\workflows\\docker-publish.yml",
-  "PreviewInSolutionExplorer": false
-}
