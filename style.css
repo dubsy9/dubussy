@@ -1,59 +1,115 @@
-/* 1. Force the whole app to take up the full screen */
+/* --- Global Variables & Reset --- */
+:root {
+    --sidebar-bg: #1e1f20;
+    --main-bg: #131314;
+    --accent-color: #333537;
+    --text-primary: #e3e3e3;
+    --text-secondary: #8e8e8e;
+    --sidebar-width: 260px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body, html {
+    height: 100%;
+    width: 100%;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--main-bg);
+    color: var(--text-primary);
+    overflow: hidden; /* Prevents double scrollbars */
+}
+
+/* --- App Layout --- */
 #app-container {
     display: flex;
     height: 100vh;
     width: 100vw;
-    overflow: hidden; /* Prevents weird scrollbars */
 }
 
-/* 2. Fix the Sidebar width and behavior */
+/* --- Sidebar Styling --- */
 #sidebar {
-    width: 260px; /* Fixed width for the panel */
-    min-width: 260px;
-    background-color: #1e1f20;
+    width: var(--sidebar-width);
+    min-width: var(--sidebar-width);
+    background-color: var(--sidebar-bg);
+    border-right: 1px solid #333;
     display: flex;
     flex-direction: column;
-    padding: 20px 12px;
-    border-right: 1px solid #333;
-    height: 100%;
-    box-sizing: border-box; /* Makes sure padding doesn't break the width */
+    padding: 24px 12px;
+    z-index: 10;
 }
 
-/* 3. Style the labels so they don't look like buttons */
-.section-label {
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: #9aa0a6;
-    margin: 20px 0 8px 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+.sidebar-header h2 {
+    font-size: 1.25rem;
+    padding: 0 12px 24px 12px;
+    font-weight: 600;
 }
 
-/* 4. Fix the Button layout inside the sidebar */
 .nav-section {
     display: flex;
     flex-direction: column;
-    gap: 4px; /* Space between buttons */
+    gap: 4px;
+    margin-bottom: 24px;
 }
 
+.section-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    padding: 0 12px 8px 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* --- Button & Link Styling --- */
 .nav-btn {
     display: flex;
     align-items: center;
     text-align: left;
     background: transparent;
     border: none;
-    color: #e3e3e3;
-    padding: 10px 12px;
+    color: var(--text-primary);
+    padding: 12px;
     border-radius: 8px;
     cursor: pointer;
     text-decoration: none;
-    font-size: 0.95rem;
-    transition: background 0.2s;
+    font-size: 0.9rem;
+    transition: background 0.2s ease;
 }
 
     .nav-btn:hover {
-        background-color: #333537;
+        background-color: var(--accent-color);
     }
 
     .nav-btn.active {
-        background-color
+        background-color: var(--accent-color);
+        font-weight: 600;
+    }
+
+/* --- Main Content Area --- */
+#main-content {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: var(--main-bg);
+}
+
+#chat-container {
+    width: 100%;
+    max-width: 850px;
+    height: 90vh;
+    border-radius: 12px;
+    overflow: hidden;
+    /* This ensures n8n chat takes the full height of this container */
+}
+
+/* --- Utility for n8n Chat Overrides --- */
+#n8n-chat-container {
+    height: 100% !important;
+    width: 100% !important;
+}
