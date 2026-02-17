@@ -197,7 +197,7 @@ body, html {
 }
 
 /* Sets user bubble background to match your input field */
-.n8n-chat .chat-message.user .chat-message-content {
+.chat-message-from-user {
     background-color: #2A2B32 !important;
     color: #FFFFFF !important;
     border: 1px solid #333 !important;
