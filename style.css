@@ -1,14 +1,19 @@
 /* --- n8n Chat Theme Overrides --- */
 :root {
-    --chat--color-primary: #10a37f; /* The 'Send' button & accents */
-    --chat--color-background: #1e1f20; /* Match your container/sidebar */
-    --chat--color-secondary: #333537; /* Bot message bubbles (your highlight color) */
-    --chat--color-white: #131314; /* User message bubbles (your deep background) */
-    --chat--color-light: #1e1f20; /* Input area background */
-    --chat--color-dark: #e3e3e3; /* Main text */
-    --chat--color-muted: #8e8e8e; /* Timestamps & labels */
-    --chat--border-radius: 12px;
+    /* Core Colors */
+    --chat--color-primary: #10a37f; /* Send button */
+    --chat--color-secondary: #2A2B32; /* Bot Message Background (slightly lighter than body) */
+    --chat--color-dark: #ECECEC; /* User Message Text & headers */
+    --chat--color-light: #131314; /* User Message Background (Matches body) */
+    /* Input Area */
+    --chat--color-input: #2A2B32; /* Input field background */
+    --chat--color-text-input: #FFFFFF; /* FORCE White text in input */
+    /* Layout & Spacing */
+    --chat--border-radius: 8px;
     --chat--font-family: 'Inter', sans-serif;
+    --chat--spacing: 20px;
+    /* Seamless Hacks - Hide the "Box" look */
+    --chat--header-height: 0px; /* Collapse header if possible */
 }
 
 /* Base Reset */
@@ -21,7 +26,7 @@
 body, html {
     height: 100%;
     font-family: 'Inter', sans-serif;
-    background-color: #131314;
+    background-color: #131314; /* Deepest Dark */
     color: #e3e3e3;
     overflow: hidden;
 }
@@ -32,21 +37,23 @@ body, html {
     width: 100vw;
 }
 
-/* Sidebar */
+/* Sidebar (Unchanged) */
 #sidebar {
     width: 260px;
-    background-color: #1e1f20;
-    border-right: 1px solid #333;
+    background-color: #18181A; /* Slightly lighter than body for contrast */
+    border-right: 1px solid #2A2B32;
     display: flex;
     flex-direction: column;
     padding: 20px 15px;
 }
 
 .logo {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-weight: 600;
+    color: #fff;
     margin-bottom: 40px;
     padding-left: 10px;
+    font-family: 'JetBrains Mono', monospace; /* Tech vibe */
 }
 
 .nav-group {
@@ -54,7 +61,7 @@ body, html {
 }
 
 .label {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     color: #8e8e8e;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -63,47 +70,66 @@ body, html {
 }
 
 .nav-item {
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 10px;
     width: 100%;
-    padding: 12px;
+    padding: 10px 12px;
     margin-bottom: 5px;
     background: transparent;
     border: none;
-    border-radius: 8px;
-    color: #e3e3e3;
+    border-radius: 6px;
+    color: #A0A0A0;
     text-align: left;
     text-decoration: none;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: all 0.2s;
 }
 
     .nav-item:hover, .nav-item.active {
-        background-color: #333537;
+        background-color: #2A2B32;
+        color: #FFF;
     }
 
-/* Main Content area */
+/* Main Content - Seamless Fix */
 #content {
     flex-grow: 1;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 40px;
-    background-color: #131314; /* Deep outer glow */
+    flex-direction: column;
+    background-color: #131314; /* Match Body */
+    position: relative;
 }
 
-/* The Box the Chat sits in */
+/* The Container is now invisible. 
+   It just holds the chat widget in the right place.
+*/
 #chat-container {
     width: 100%;
-    max-width: 900px;
     height: 100%;
-    background: #1e1f20;
-    border-radius: 12px;
-    border: 1px solid #333;
-    overflow: hidden; /* Clips the chat widget corners to match yours */
+    border: none;
+    background: transparent;
 }
 
-/* --- Internal Tweaks to kill the default white borders --- */
-.n8n-chat-widget {
-    border: none !important;
+/* --- DEEP N8N OVERRIDES --- */
+
+/* 1. Hide the standard Header ("General / Online") */
+.n8n-chat .chat-header {
+    display: none !important;
+}
+
+/* 2. Fix the Input Area */
+.n8n-chat .chat-input-container {
+    background-color: transparent !important;
+}
+
+.n8n-chat .chat-input {
+    background-color: var(--chat--color-input) !important;
+    color: var(--chat--color-text-input) !important; /* Fixes Black Text */
+    border: 1px solid #333;
+}
+
+/* 3. Make the background seamless */
+.n8n-chat .chat-layout {
+    background-color: #131314 !important; /* Force match background */
 }
