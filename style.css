@@ -1,19 +1,19 @@
 /* --- n8n Chat Theme Overrides --- */
 :root {
-    /* Core Colors */
+    /* 1. Main Backgrounds */
+    --chat--color-background: #131314; /* Deepest Dark */
+    --chat--color-secondary: #131314; /* Bot Response: Match the chat background */
+    --chat--color-light: #131314; /* User Bubble: Match the chat background */
+    /* 2. User Input Box (Slightly lighter black) */
+    --chat--color-input: #2A2B32;
+    /* 3. Text Colors (FORCE WHITE) */
+    --chat--color-dark: #FFFFFF; /* Bot text color */
+    --chat--color-white: #FFFFFF; /* User text color fallback */
+    --chat--color-text-input: #FFFFFF; /* Input typing color */
+    /* 4. Accents & Layout */
     --chat--color-primary: #10a37f; /* Send button */
-    --chat--color-secondary: #2A2B32; /* Bot Message Background (slightly lighter than body) */
-    --chat--color-dark: #ECECEC; /* User Message Text & headers */
-    --chat--color-light: #131314; /* User Message Background (Matches body) */
-    /* Input Area */
-    --chat--color-input: #2A2B32; /* Input field background */
-    --chat--color-text-input: #FFFFFF; /* FORCE White text in input */
-    /* Layout & Spacing */
     --chat--border-radius: 8px;
-    --chat--font-family: 'Inter', sans-serif;
-    --chat--spacing: 20px;
-    /* Seamless Hacks - Hide the "Box" look */
-    --chat--header-height: 0px; /* Collapse header if possible */
+    --chat--header-height: 0px; /* Hide header */
 }
 
 /* Base Reset */
@@ -125,11 +125,16 @@ body, html {
 
 .n8n-chat .chat-input {
     background-color: var(--chat--color-input) !important;
-    color: var(--chat--color-text-input) !important; /* Fixes Black Text */
-    border: 1px solid #333;
+    color: var(--chat--color-text-input) !important;
+    border: 1px solid #333 !important;
+    caret-color: #FFFFFF !important; /* Ensures the typing cursor is visible */
 }
 
 /* 3. Make the background seamless */
 .n8n-chat .chat-layout {
     background-color: #131314 !important; /* Force match background */
+}
+
+.n8n-chat .chat-message.bot {
+    color: #FFFFFF !important;
 }
