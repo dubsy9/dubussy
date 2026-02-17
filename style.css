@@ -14,7 +14,7 @@
     --chat--border-radius: 8px;
     --chat--header-height: 0px;
     --chat--font-family: 'Inter', sans-serif;
-}--chat--header-height: 0px; /* Hide header */
+}
 
 /* Base Reset */
 * {
