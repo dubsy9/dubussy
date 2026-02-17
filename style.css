@@ -2,18 +2,22 @@
 :root {
     /* 1. The Main Background (Pure Black) */
     --chat--color-background: #131314;
+    
     /* 2. Chat Bubbles & Input Box (Lighter Gray) */
     --chat--color-secondary: #2f2f2f; /* Bot bubbles */
-    --chat--color-light: #2f2f2f; /* User bubbles & Input box */
+    --chat--color-light: #2f2f2f;     /* User bubbles & Input box */
+    
     /* 3. Text Colors (FORCE WHITE) */
-    --chat--color-dark: #ffffff; /* All main text */
-    --chat--color-white: #ffffff; /* Fallback for white text */
+    --chat--color-dark: #ffffff;      /* All main text */
+    --chat--color-white: #ffffff;     /* Fallback for white text */
     --chat--color-text-input: #ffffff;
+    
     /* 4. Accents */
-    --chat--color-primary: #10a37f; /* Send button */
+    --chat--color-primary: #10a37f;   /* Send button */
+    
     /* 5. Layout */
     --chat--border-radius: 12px;
-    --chat--header-height: 0px; /* Kill the header */
+    --chat--header-height: 0px;       /* Kill the header */
 }
 
 /* --- The "Force" Overrides --- */
