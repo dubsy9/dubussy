@@ -113,28 +113,39 @@ body, html {
 
 /* --- DEEP N8N OVERRIDES --- */
 
-/* 1. Hide the standard Header ("General / Online") */
+/* 1. Hide the standard Header */
 .n8n-chat .chat-header {
     display: none !important;
 }
 
-/* 2. Fix the Input Area */
+/* 2. Fix the Input Area: Lighter black, white text */
 .n8n-chat .chat-input-container {
     background-color: transparent !important;
 }
 
-.n8n-chat .chat-input {
-    background-color: var(--chat--color-input) !important;
-    color: var(--chat--color-text-input) !important;
+.n8n-chat .chat-input,
+.n8n-chat .chat-input input,
+.n8n-chat .chat-input textarea {
+    background-color: #2A2B32 !important;
+    color: #FFFFFF !important;
     border: 1px solid #333 !important;
-    caret-color: #FFFFFF !important; /* Ensures the typing cursor is visible */
+    caret-color: #FFFFFF !important;
 }
 
 /* 3. Make the background seamless */
 .n8n-chat .chat-layout {
-    background-color: #131314 !important; /* Force match background */
+    background-color: #131314 !important;
 }
 
-.n8n-chat .chat-message.bot {
+/* 4. AI Response: Background matches chat, text is white */
+.n8n-chat .chat-message.bot .chat-message-content {
+    background-color: #131314 !important;
+    color: #FFFFFF !important;
+    border: none !important;
+}
+
+/* 5. User Bubble: Also match background for a truly seamless look */
+.n8n-chat .chat-message.user .chat-message-content {
+    background-color: #131314 !important;
     color: #FFFFFF !important;
 }
