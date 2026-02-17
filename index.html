@@ -12,16 +12,26 @@
 <body>
     <div id="app-wrapper">
         <aside id="sidebar">
-            <div class="logo">Dubussy</div>
-            <div class="nav-group">
-                <p class="label">AI Assistant</p>
-                <button class="nav-item active" onclick="loadBot('General', 'https://n8n.dubussy.com/webhook/f070f65e-7066-4e43-87fa-eb8a5d92d886/chat', this)">
-                    💬 General
+            <div class="sidebar-header">
+                <div class="logo">Dubussy</div>
+                <button id="toggle-sidebar" onclick="document.getElementById('sidebar').classList.toggle('collapsed')">
+                    ☰
                 </button>
             </div>
-            <button id="toggle-sidebar" onclick="document.getElementById('sidebar').classList.toggle('collapsed')">
-                Toggle
-            </button>
+
+            <div class="nav-group">
+                <p class="label"><span>AI Assistant</span></p>
+                <button class="nav-item active" onclick="loadBot('General', 'https://n8n.dubussy.com/webhook/f070f65e-7066-4e43-87fa-eb8a5d92d886/chat', this)">
+                    <i>💬</i> <span>General</span>
+                </button>
+            </div>
+
+            <div class="nav-group">
+                <p class="label"><span>Links</span></p>
+                <a href="https://n8n.dubussy.com" target="_blank" class="nav-item">
+                    <i>⚙️</i> <span>Admin</span>
+                </a>
+            </div>
         </aside>
 
         <main id="content">
