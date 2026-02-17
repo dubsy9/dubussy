@@ -1,3 +1,17 @@
+/* --- n8n Chat Theme Overrides --- */
+:root {
+    --chat--color-primary: #10a37f; /* The 'Send' button & accents */
+    --chat--color-background: #1e1f20; /* Match your container/sidebar */
+    --chat--color-secondary: #333537; /* Bot message bubbles (your highlight color) */
+    --chat--color-white: #131314; /* User message bubbles (your deep background) */
+    --chat--color-light: #1e1f20; /* Input area background */
+    --chat--color-dark: #e3e3e3; /* Main text */
+    --chat--color-muted: #8e8e8e; /* Timestamps & labels */
+    --chat--border-radius: 12px;
+    --chat--font-family: 'Inter', sans-serif;
+}
+
+/* Base Reset */
 * {
     margin: 0;
     padding: 0;
@@ -64,13 +78,8 @@ body, html {
     transition: background 0.2s;
 }
 
-    .nav-item:hover {
+    .nav-item:hover, .nav-item.active {
         background-color: #333537;
-    }
-
-    .nav-item.active {
-        background-color: #333537;
-        font-weight: 600;
     }
 
 /* Main Content area */
@@ -80,12 +89,21 @@ body, html {
     justify-content: center;
     align-items: center;
     padding: 40px;
+    background-color: #131314; /* Deep outer glow */
 }
 
+/* The Box the Chat sits in */
 #chat-container {
     width: 100%;
     max-width: 900px;
     height: 100%;
     background: #1e1f20;
     border-radius: 12px;
+    border: 1px solid #333;
+    overflow: hidden; /* Clips the chat widget corners to match yours */
+}
+
+/* --- Internal Tweaks to kill the default white borders --- */
+.n8n-chat-widget {
+    border: none !important;
 }
