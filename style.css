@@ -44,49 +44,64 @@ body, html {
     display: flex;
     flex-direction: column;
     padding: 20px 15px;
-    transition: width 0.3s ease, padding 0.3s ease; /* Smooth transition */
+    transition: width 0.3s ease;
     position: relative;
-    overflow: hidden; /* Keeps content from spilling when narrow */
+    overflow: hidden;
 }
 
-    /* Collapsed State */
+
 #sidebar.collapsed {
-    width: 60px; /* Width of the icons/collapsed bar */
+    width: 70px;
     padding: 20px 10px;
 }
 
-/* Hide text elements when collapsed */
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    padding: 0 10px;
+}
+
+#sidebar.collapsed .sidebar-header {
+    justify-content: center;
+    padding: 0;
+}
+
 #sidebar.collapsed .logo,
-#sidebar.collapsed .label,
+#sidebar.collapsed .label span,
 #sidebar.collapsed .nav-item span {
     display: none;
 }
 
-/* Center icons when collapsed */
+#toggle-sidebar {
+    background: transparent;
+    border: none;
+    color: #8e8e8e;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: color 0.2s;
+    line-height: 1;
+}
+
+#toggle-sidebar:hover {
+    color: #ffffff;
+}
+
+.nav-item i {
+    font-style: normal;
+    font-size: 1.2rem;
+    min-width: 24px;
+    text-align: center;
+}
+
 #sidebar.collapsed .nav-item {
     justify-content: center;
-    padding: 12px 0;
 }
 
-/* Toggle Button Style */
-#toggle-sidebar {
-    background: #2A2B32;
-    border: 1px solid #333;
-    color: #fff;
-    border-radius: 4px;
-    padding: 5px 10px;
-    cursor: pointer;
-    position: absolute;
-    bottom: 20px;
-    left: 15px;
-    z-index: 10;
-    font-size: 0.8rem;
-}
-
-#sidebar.collapsed #toggle-sidebar {
-    left: 10px;
-    width: 40px;
-    padding: 5px 0;
+/* Label horizontal line fix when collapsed */
+#sidebar.collapsed .label {
+    text-align: center;
 }
 
 .logo {
