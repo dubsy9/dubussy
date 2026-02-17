@@ -11,6 +11,7 @@
     --chat--input--send--button--background: #2A2B32;
     --chat--input--send--button--color: #10a37f;
     --chat--color--primary: #10a37f;
+    --chat--color-typing: #FFFFFF;
     --chat--border-radius: 8px;
     --chat--header-height: 0px;
     --chat--font-family: 'Inter', sans-serif;
@@ -193,4 +194,11 @@ body, html {
 .n8n-chat .chat-message-content {
     border: none !important;
     box-shadow: none !important;
+}
+
+/* Sets user bubble background to match your input field */
+.n8n-chat .chat-message.user .chat-message-content {
+    background-color: #2A2B32 !important;
+    color: #FFFFFF !important;
+    border: 1px solid #333 !important;
 }
