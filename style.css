@@ -1,19 +1,25 @@
 /* --- n8n Chat Theme Overrides --- */
 :root {
-    /* 1. Main Backgrounds */
-    --chat--color-background: #131314; /* Deepest Dark */
-    --chat--color-secondary: #131314; /* Bot Response: Match the chat background */
-    --chat--color-light: #131314; /* User Bubble: Match the chat background */
-    /* 2. User Input Box (Slightly lighter black) */
-    --chat--color-input: #2A2B32;
-    /* 3. Text Colors (FORCE WHITE) */
-    --chat--color-dark: #FFFFFF; /* Bot text color */
-    --chat--color-white: #FFFFFF; /* User text color fallback */
-    --chat--color-text-input: #FFFFFF; /* Input typing color */
-    /* 4. Accents & Layout */
-    --chat--color-primary: #10a37f; /* Send button */
+    /* 1. Main Backgrounds & Seamless Bubbles */
+    --chat--body--background: #131314;
+    --chat--footer--background: #131314;
+    /* 2. AI Response: Match chat background, white text */
+    --chat--message--bot--background: #131314;
+    --chat--message--bot--color: #FFFFFF;
+    /* 3. User Bubble: Match chat background, white text */
+    --chat--message--user--background: #131314;
+    --chat--message--user--color: #FFFFFF;
+    /* 4. User Input Box: Slightly lighter black, white text */
+    --chat--input--background: #2A2B32;
+    --chat--input--text-color: #FFFFFF;
+    --chat--input--send--button--background: #2A2B32;
+    --chat--input--send--button--color: #10a37f;
+    /* 5. Accents & Layout */
+    --chat--color--primary: #10a37f;
     --chat--border-radius: 8px;
-    --chat--header-height: 0px; /* Hide header */
+    --chat--header-height: 0px;
+    --chat--font-family: 'Inter', sans-serif;
+}--chat--header-height: 0px; /* Hide header */
 }
 
 /* Base Reset */
@@ -26,7 +32,7 @@
 body, html {
     height: 100%;
     font-family: 'Inter', sans-serif;
-    background-color: #131314; /* Deepest Dark */
+    background-color: #131314;
     color: #e3e3e3;
     overflow: hidden;
 }
@@ -111,41 +117,29 @@ body, html {
     background: transparent;
 }
 
-/* --- DEEP N8N OVERRIDES --- */
+/* --- DEEP N8N OVERRIDES (Targeting docs-specific classes) --- */
 
 /* 1. Hide the standard Header */
 .n8n-chat .chat-header {
     display: none !important;
 }
 
-/* 2. Fix the Input Area: Lighter black, white text */
-.n8n-chat .chat-input-container {
-    background-color: transparent !important;
-}
-
+/* 2. Force Input Text visibility & Caret */
 .n8n-chat .chat-input,
 .n8n-chat .chat-input input,
 .n8n-chat .chat-input textarea {
-    background-color: #2A2B32 !important;
-    color: #FFFFFF !important;
-    border: 1px solid #333 !important;
+    background-color: var(--chat--input--background) !important;
+    color: var(--chat--input--text-color) !important;
     caret-color: #FFFFFF !important;
 }
 
-/* 3. Make the background seamless */
+/* 3. Ensure background remains seamless */
 .n8n-chat .chat-layout {
-    background-color: #131314 !important;
+    background-color: var(--chat--body--background) !important;
 }
 
-/* 4. AI Response: Background matches chat, text is white */
-.n8n-chat .chat-message.bot .chat-message-content {
-    background-color: #131314 !important;
-    color: #FFFFFF !important;
+/* 4. Kill the borders on messages to keep them seamless */
+.n8n-chat .chat-message-content {
     border: none !important;
-}
-
-/* 5. User Bubble: Also match background for a truly seamless look */
-.n8n-chat .chat-message.user .chat-message-content {
-    background-color: #131314 !important;
-    color: #FFFFFF !important;
+    box-shadow: none !important;
 }
