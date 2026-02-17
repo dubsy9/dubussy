@@ -1,27 +1,25 @@
 /* --- n8n Chat Theme Overrides --- */
 :root {
     /* Main Backgrounds */
-    --chat--color-primary: #10a37f; /* The 'Send' button & accents */
-    --chat--color-background: #131314; /* Matches your deepest background */
-    --chat--color-secondary: #212121; /* Bot message bubbles */
-    --chat--color-white: #2f2f2f; /* User message bubbles - matches input box */
+    --chat--color-primary: #10a37f;      /* The 'Send' button & accents */
+    --chat--color-background: #131314;   /* Matches your deepest background */
+    --chat--color-secondary: #212121;    /* Bot message bubbles */
+    --chat--color-white: #2f2f2f;        /* User message bubbles - matches input box */
+    
     /* Input Area */
-    --chat--color-light: #2f2f2f; /* Input area background - "Lighter but still black" */
-    --chat--color-text-input: #ffffff; /* FORCE white text in input */
+    --chat--color-light: #2f2f2f;        /* Input area background - "Lighter but still black" */
+    --chat--color-text-input: #ffffff;   /* FORCE white text in input */
+    
     /* Text Colors */
-    --chat--color-dark: #ffffff; /* Main text for bubbles */
-    --chat--color-muted: #8e8e8e; /* Timestamps & labels */
-
+    --chat--color-dark: #ffffff;         /* Main text for bubbles */
+    --chat--color-muted: #8e8e8e;        /* Timestamps & labels */
+    
     --chat--border-radius: 16px;
     --chat--font-family: 'Inter', sans-serif;
 }
 
 /* Base Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body, html {
     height: 100%;
@@ -30,11 +28,7 @@ body, html {
     overflow: hidden;
 }
 
-#app-wrapper {
-    display: flex;
-    height: 100vh;
-    width: 100vw;
-}
+#app-wrapper { display: flex; height: 100vh; width: 100vw; }
 
 /* Sidebar */
 #sidebar {
@@ -61,26 +55,20 @@ body, html {
 /* --- Deep UI Fixes for "Seamless" & White Text --- */
 
 /* 1. Remove Header and Shadow DOM borders */
-.n8n-chat .chat-header {
-    display: none !important;
-}
-
-.n8n-chat .chat-layout {
-    background-color: transparent !important;
-    border: none !important;
-}
+.n8n-chat .chat-header { display: none !important; }
+.n8n-chat .chat-layout { background-color: transparent !important; border: none !important; }
 
 /* 2. Style the Chat Bubbles to be White Text */
 .n8n-chat .chat-message {
     color: #ffffff !important;
 }
 
-    /* 3. Style User Bubble specifically to match the input box */
-    .n8n-chat .chat-message.user {
-        background-color: #2f2f2f !important;
-        color: #ffffff !important;
-        border: 1px solid #3c3c3c;
-    }
+/* 3. Style User Bubble specifically to match the input box */
+.n8n-chat .chat-message.user {
+    background-color: #2f2f2f !important;
+    color: #ffffff !important;
+    border: 1px solid #3c3c3c;
+}
 
 /* 4. Fix the Input Section */
 .n8n-chat .chat-input-container {
@@ -90,7 +78,7 @@ body, html {
 
 .n8n-chat .chat-input {
     background-color: #2f2f2f !important; /* Lighter black input box */
-    color: #ffffff !important; /* White text typing */
+    color: #ffffff !important;           /* White text typing */
     border: 1px solid #3c3c3c !important;
     border-radius: 12px !important;
     padding: 12px 15px !important;
