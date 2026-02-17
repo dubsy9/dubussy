@@ -1,26 +1,20 @@
 /* --- n8n Chat Theme Overrides --- */
 :root {
-    /* 1. Main Backgrounds & Seamless Bubbles */
     --chat--body--background: #131314;
     --chat--footer--background: #131314;
-    /* 2. AI Response: Match chat background, white text */
     --chat--message--bot--background: #131314;
     --chat--message--bot--color: #FFFFFF;
-    /* 3. User Bubble: Match chat background, white text */
     --chat--message--user--background: #131314;
     --chat--message--user--color: #FFFFFF;
-    /* 4. User Input Box: Slightly lighter black, white text */
     --chat--input--background: #2A2B32;
     --chat--input--text-color: #FFFFFF;
     --chat--input--send--button--background: #2A2B32;
     --chat--input--send--button--color: #10a37f;
-    /* 5. Accents & Layout */
     --chat--color--primary: #10a37f;
     --chat--border-radius: 8px;
     --chat--header-height: 0px;
     --chat--font-family: 'Inter', sans-serif;
 }--chat--header-height: 0px; /* Hide header */
-}
 
 /* Base Reset */
 * {
@@ -43,7 +37,6 @@ body, html {
     width: 100vw;
 }
 
-/* Sidebar (Unchanged) */
 #sidebar {
     width: 260px;
     background-color: #18181A; /* Slightly lighter than body for contrast */
@@ -59,7 +52,7 @@ body, html {
     color: #fff;
     margin-bottom: 40px;
     padding-left: 10px;
-    font-family: 'JetBrains Mono', monospace; /* Tech vibe */
+    font-family: 'JetBrains Mono', monospace; 
 }
 
 .nav-group {

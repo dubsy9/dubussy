@@ -10,7 +10,6 @@ window.loadBot = async function (name, url, btnElement) {
             const data = await response.json();
             userMetadata = {
                 userEmail: data.email,
-                userName: data.name
             };
             console.log("Authenticated as:", data.email);
         }
