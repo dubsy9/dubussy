@@ -4,42 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Request Access | Dubussy</title>
-    <style>
-        body { background: #0d0d0d; color: white; font-family: 'Inter', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; padding: 20px; }
-        
-        .card { 
-            background: rgba(36, 36, 36, 0.7); backdrop-filter: blur(15px);
-            padding: 48px; border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.1);
-            width: 100%; max-width: 440px; text-align: center;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
-        }
-
-        h1 { font-size: 28px; margin: 0 0 12px; font-weight: 600; letter-spacing: -0.5px; }
-        p { color: #888; line-height: 1.6; margin-bottom: 32px; }
-
-        input { 
-            width: 100%; padding: 14px 18px; margin-bottom: 20px; border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.1); background: #121212;
-            color: white; font-size: 16px; outline: none; transition: 0.2s;
-        }
-        input:focus { border-color: #d34; box-shadow: 0 0 0 4px rgba(211, 51, 68, 0.1); }
-
-        button { 
-            width: 100%; padding: 14px; border-radius: 12px; border: none;
-            background: #d34; color: white; font-size: 16px; font-weight: 600;
-            cursor: pointer; transition: 0.3s;
-        }
-        button:hover { background: #ff4d5e; transform: translateY(-2px); }
-    </style>
+    <link href="./style.css" rel="stylesheet" />
 </head>
 <body>
     <div class="card">
         <h1>Join the Paradise</h1>
         <p>Access our private suite of AI tools. Your request will be reviewed by an administrator.</p>
         <form action="https://n8n.dubussy.com/webhook/request-access" method="POST">
-            <input type="email" name="email" placeholder="email@example.com" required>
+            <input id="email-field" type="email" name="email" placeholder="email@example.com" required>
             <button type="submit">Submit Request</button>
         </form>
     </div>
+    <script src="script.js" type="module"></script>
 </body>
 </html>
