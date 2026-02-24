@@ -1,0 +1,7 @@
+name = "dubussy-james-sp-warner"  
+main = "src/index.js"             
+compatibility_date = "2026-02-24"  
+
+[assets]
+directory = "."                  
+binding = "ASSETS"                 
