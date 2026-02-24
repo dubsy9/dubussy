@@ -6,19 +6,16 @@ export default {
                 const email = formData.get('email');
 
                 if (!email) {
-                    return new Response('Email is required', { status: 400 });
+                    return Response.redirect('/request?error=email_required', 302); 
                 }
 
                 const discordApiBase = 'https://discord.com/api/v10';
                 const botToken = env.DISCORD_BOT_TOKEN;
-                const userId = env.DISCORD_USER_ID; 
+                const userId = env.DISCORD_USER_ID;
 
                 const createChannelResponse = await fetch(`${discordApiBase}/users/@me/channels`, {
                     method: 'POST',
-                    headers: {
-                        'Authorization': `Bot ${botToken}`,
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { 'Authorization': `Bot ${botToken}`, 'Content-Type': 'application/json' },
                     body: JSON.stringify({ recipient_id: userId })
                 });
 
@@ -29,16 +26,11 @@ export default {
                 const channelData = await createChannelResponse.json();
                 const dmChannelId = channelData.id;
 
-                const message = {
-                    content: `New access request from: ${email}`
-                };
+                const message = { content: `New access request from: ${email}` };
 
                 const sendMessageResponse = await fetch(`${discordApiBase}/channels/${dmChannelId}/messages`, {
                     method: 'POST',
-                    headers: {
-                        'Authorization': `Bot ${botToken}`,
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { 'Authorization': `Bot ${botToken}`, 'Content-Type': 'application/json' },
                     body: JSON.stringify(message)
                 });
 
@@ -50,7 +42,7 @@ export default {
 
             } catch (error) {
                 console.error(error);
-                return new Response('Error processing request', { status: 500 });
+                return Response.redirect('/request?error=processing_failed', 302);
             }
         }
 
