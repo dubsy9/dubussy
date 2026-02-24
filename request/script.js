@@ -7,10 +7,8 @@ if (email) {
 const form = document.querySelector('form');
 
 form.addEventListener('submit', async (e) => {
-    e.preventDefault();
+    e.preventDefault(); 
     const button = form.querySelector('button');
-    const originalText = button.textContent;
-
     button.disabled = true;
     button.textContent = 'Submitting...';
 
@@ -22,16 +20,17 @@ form.addEventListener('submit', async (e) => {
 
         const result = await response.json();
 
-        if (result.success && result.redirect) {
-            window.location.href = result.redirect;
+        if (response.ok && result.success) {
+            // Manually move the user to the thanks page
+            window.location.href = '/thanks'; 
         } else {
-            alert('Error: ' + (result.error || 'Unknown error occurred'));
+            alert('Error: ' + (result.error || 'Something went wrong'));
             button.disabled = false;
-            button.textContent = originalText;
+            button.textContent = 'Submit Request';
         }
     } catch (error) {
         alert('Network Error: ' + error.message);
         button.disabled = false;
-        button.textContent = originalText;
+        button.textContent = 'Submit Request';
     }
 });
