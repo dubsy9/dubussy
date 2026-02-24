@@ -5,8 +5,8 @@ export default {
 
         if (path === '/submit' && request.method === 'POST') {
             try {
-            const formData = await request.formData();
-            const email = formData.get('email');
+            const data = await request.json();
+            const email = data.email;
             
             if (!email) {
                 return new Response(JSON.stringify({ error: 'email_required' }), { status: 400 });
