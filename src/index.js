@@ -11,8 +11,8 @@ export default {
                     return Response.redirect('/request?error=email_required', 302);
                 }
                 const discordApiBase = 'https://discord.com/api/v10';
-                const botToken = env.DISCORD_BOT_TOKEN;  // Your secret
-                const userId = env.DISCORD_USER_ID;      // Optional var if needed
+                const botToken = env.DISCORD_BOT_TOKEN;
+                const userId = env.DISCORD_USER_ID;
                 const createChannelResponse = await fetch(`${discordApiBase}/users/@me/channels`, {
                     method: 'POST',
                     headers: { 'Authorization': `Bot ${botToken}`, 'Content-Type': 'application/json' },
@@ -32,14 +32,13 @@ export default {
                 if (!sendMessageResponse.ok) {
                     throw new Error('Failed to send DM');
                 }
-                return Response.redirect('/thanks', 302);  // Redirect on success
+                return Response.redirect('/thanks', 302);
             } catch (error) {
                 console.error(error);
                 return Response.redirect('/request?error=processing_failed', 302);
             }
         }
 
-        // Serve static assets for other paths (e.g., /request, /thanks)
         return env.ASSETS.fetch(request);
     }
 };
