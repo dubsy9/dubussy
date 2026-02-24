@@ -5,9 +5,12 @@ if (email) {
 }
 
 const form = document.querySelector('form');
+
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const button = form.querySelector('button');
+    const originalText = button.textContent;
+
     button.disabled = true;
     button.textContent = 'Submitting...';
 
@@ -17,15 +20,18 @@ form.addEventListener('submit', async (e) => {
             body: new FormData(form)
         });
 
-        if (response.redirected) {
-            window.location.href = response.url;
+        const result = await response.json();
+
+        if (result.success && result.redirect) {
+            window.location.href = result.redirect;
         } else {
-            alert('Success, but no redirect set');
+            alert('Error: ' + (result.error || 'Unknown error occurred'));
+            button.disabled = false;
+            button.textContent = originalText;
         }
     } catch (error) {
-        alert('Error: ' + error.message);
-    } finally {
+        alert('Network Error: ' + error.message);
         button.disabled = false;
-        button.textContent = 'Submit Request';
+        button.textContent = originalText;
     }
 });
