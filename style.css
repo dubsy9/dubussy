@@ -175,34 +175,8 @@ body, html {
 }
 
 
-.n8n-chat .chat-header {
-    display: none !important;
-}
-
-.n8n-chat .chat-input,
-.n8n-chat .chat-input input,
-.n8n-chat .chat-input textarea {
-    background-color: var(--chat--input--background) !important;
-    color: var(--chat--input--text-color) !important;
-    caret-color: #FFFFFF !important;
-}
-
-.n8n-chat .chat-layout {
-    background-color: var(--chat--body--background) !important;
-}
-
-.n8n-chat .chat-message-content {
-    border: none !important;
-    box-shadow: none !important;
-}
-
 .chat-message-from-user {
     background-color: #2A2B32 !important;
     color: #FFFFFF !important;
     border: 1px solid #333 !important;
-}
-
-.n8n-chat .chat-message-avatar,
-.n8n-chat .chat-avatar {
-    display: none !important;
 }

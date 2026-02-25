@@ -29,6 +29,9 @@ window.loadBot = async function (name, url, btnElement) {
         target: '#chat-container',
         mode: 'fullscreen',
         metadata: userMetadata,
+        initialMessages: [
+            'Hi there! 👋'
+        ],
         i18n: {
             en: {
                 title: '', 
