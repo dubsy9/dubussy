@@ -1,5 +1,6 @@
 /* --- n8n Chat Theme Overrides --- */
 :root {
+    --chat--header--background: #2A2B32;
     --chat--body--background: #131314;
     --chat--footer--background: #131314;
     --chat--message--bot--background: #131314;
@@ -164,6 +165,10 @@ body, html {
     flex-direction: column;
     background-color: #131314;
     position: relative;
+}
+
+.chat-inputs {
+    align-items: center;
 }
 
 
