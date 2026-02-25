@@ -1,11 +1,13 @@
 /* --- n8n Chat Theme Overrides --- */
 :root {
+    --chat--header--background: #2A2B32;
     --chat--body--background: #131314;
     --chat--footer--background: #131314;
     --chat--message--bot--background: #2A2B32;
     --chat--message--bot--color: #FFFFFF;
     --chat--message--user--background: #2A2B32;
     --chat--message--user--color: #FFFFFF;
+    --chat--input--container--background: #131314;
     --chat--input--background: #131314;
     --chat--input--text-color: #FFFFFF;
     --chat--input--send--button--background: #2A2B32;
