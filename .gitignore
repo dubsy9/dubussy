@@ -3,10 +3,7 @@
 *.sqlite
 bin/
 obj/
-*.toml
 
-# wrangler files
-.wrangler
 .dev.vars*
 !.dev.vars.example
 .env*
