@@ -1,30 +1,17 @@
 /* --- n8n Chat Theme Overrides --- */
 :root {
-    --chat--header--background: #2A2B32;
-    --chat--body--background: #131314;
-    --chat--footer--background: #131314;
-    --chat--message--bot--background: #131314;
-    --chat--message--bot--color: #FFFFFF;
-    --chat--message--user--background: #131314;
-    --chat--message--user--color: #FFFFFF;
-    --chat--input--background: #2A2B32;
-    --chat--input--text-color: #FFFFFF;
-    --chat--input--send--button--background: #2A2B32;
-    --chat--input--container--background: #131314;
-    --chat--input--send--button--color: #10a37f;
-    --chat--input--width: 100%;
-    --chat--input--border-radius: 24px;
-    --chat--input--border: none;
-    --chat--input--padding: 12px 20px;
-    --chat--input--box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    --chat--input--focus--box-shadow: 0 4px 16px rgba(16, 163, 127, 0.3);
-    --chat--input--font-size: 1rem;
-    --chat--input--color: #FFFFFF;
-    --chat--color--primary: #10a37f;
-    --chat--color-typing: #FFFFFF;
-    --chat--border-radius: 8px;
-    --chat--header-height: 0px;
-    --chat--font-family: 'Inter', sans-serif;
+    --chat--body--background: #131314; 
+    --chat--footer--background: #131314; 
+    --chat--message--bot--background: #2A2B32; 
+    --chat--message--bot--color: #FFFFFF; 
+    --chat--message--user--background: #2A2B32; 
+    --chat--message--user--color: #FFFFFF; 
+    --chat--input--background: #2A2B32; 
+    --chat--input--text-color: #FFFFFF; 
+    --chat--input--send--button--background: #2A2B32; 
+    --chat--input--send--button--color: #10a37f; 
+    --chat--color--primary: #10a37f; 
+    --chat--color-typing: #8e8e8e; 
 }
 
 * {
@@ -165,23 +152,4 @@ body, html {
     flex-direction: column;
     background-color: #131314;
     position: relative;
-}
-
-.chat-inputs {
-    align-items: center;
-}
-
-
-#chat-container {
-    width: 100%;
-    height: 100%;
-    border: none;
-    background: transparent;
-}
-
-
-.chat-message-from-user {
-    background-color: #2A2B32 !important;
-    color: #FFFFFF !important;
-    border: 1px solid #333 !important;
 }
