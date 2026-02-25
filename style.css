@@ -10,6 +10,14 @@
     --chat--input--text-color: #FFFFFF;
     --chat--input--send--button--background: #2A2B32;
     --chat--input--send--button--color: #10a37f;
+    --chat--input--width: 100%;
+    --chat--input--border-radius: 24px;
+    --chat--input--border: none;
+    --chat--input--padding: 12px 20px;
+    --chat--input--box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    --chat--input--focus--box-shadow: 0 4px 16px rgba(16, 163, 127, 0.3);
+    --chat--input--font-size: 1rem;
+    --chat--input--color: #FFFFFF;
     --chat--color--primary: #10a37f;
     --chat--color-typing: #FFFFFF;
     --chat--border-radius: 8px;
@@ -51,10 +59,10 @@ body, html {
 }
 
 
-#sidebar.collapsed {
-    width: 70px;
-    padding: 20px 10px;
-}
+    #sidebar.collapsed {
+        width: 70px;
+        padding: 20px 10px;
+    }
 
 .sidebar-header {
     display: flex;
@@ -85,9 +93,9 @@ body, html {
     line-height: 1;
 }
 
-#toggle-sidebar:hover {
-    color: #ffffff;
-}
+    #toggle-sidebar:hover {
+        color: #ffffff;
+    }
 
 .nav-item i {
     font-style: normal;
@@ -111,7 +119,7 @@ body, html {
     color: #fff;
     margin-bottom: 40px;
     padding-left: 10px;
-    font-family: 'JetBrains Mono', monospace; 
+    font-family: 'JetBrains Mono', monospace;
 }
 
 .nav-group {
@@ -202,3 +210,23 @@ body, html {
     color: #FFFFFF !important;
     border: 1px solid #333 !important;
 }
+
+.n8n-chat .chat-message-avatar,
+.n8n-chat .chat-avatar {
+    display: none !important;
+}
+
+.n8n-chat .chat-error-message,
+.n8n-chat .chat-message-error {
+    background-color: #2A2B32 !important;
+    color: #FF6B6B !important;
+    border: 1px solid #FF6B6B !important;
+    border-radius: 8px !important;
+    padding: 12px !important;
+    font-size: 0.9rem !important;
+}
+
+
+    .n8n-chat .chat-error-message::before {
+        content: "Oops, the bot is offline right now. Try again later!";
+    }
