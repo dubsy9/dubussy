@@ -9,29 +9,34 @@ const form = document.querySelector('form');
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const button = form.querySelector('button');
-    const originalText = button.textContent;
-
     button.disabled = true;
     button.textContent = 'Submitting...';
+
+    // Convert FormData to a standard object
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
 
     try {
         const response = await fetch(form.action, {
             method: 'POST',
-            body: new FormData(form)
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
         });
 
         const result = await response.json();
 
-        if (result.success && result.redirect) {
-            window.location.href = result.redirect;
+        if (response.ok && result.success) {
+            window.location.href = '/thanks';
         } else {
-            alert('Error: ' + (result.error || 'Unknown error occurred'));
+            alert('Error: ' + (result.error || 'Something went wrong'));
             button.disabled = false;
-            button.textContent = originalText;
+            button.textContent = 'Submit Request';
         }
     } catch (error) {
-        alert('Network Error: ' + error.message);
+        alert('Connection Error. Please check your internet or try again.');
         button.disabled = false;
-        button.textContent = originalText;
+        button.textContent = 'Submit Request';
     }
 });

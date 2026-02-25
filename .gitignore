@@ -3,4 +3,8 @@
 *.sqlite
 bin/
 obj/
-*.toml
+
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example
