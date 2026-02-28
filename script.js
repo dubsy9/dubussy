@@ -51,7 +51,7 @@ window.loadBot = async function (name, url, btnElement) {
 window.addEventListener('DOMContentLoaded', () => {
     loadBot(
         'General',
-        'https://n8n.dubussy.com/webhook/f070f65e-7066-4e43-87fa-eb8a5d92d886/chat',
+        'https://n8n.dubussy.com/webhook/243c0064-8477-47e9-802a-97f27c7550d7/chat',
         document.querySelector('.nav-item.active')
     );
 });
