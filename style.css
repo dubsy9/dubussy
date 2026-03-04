@@ -6,9 +6,9 @@
     --chat--color--secondary: #10a37f; 
     --chat--color-secondary-shade-50: #0e8f70;
     --chat--color-white: #fff;
-    --chat--color-light: #2A2B32; 
-    --chat--color-light-shade-50: #232429;
-    --chat--color-light-shade-100: #1C1D21;
+    --chat--color-light: #FDFDFC; 
+    --chat--color-light-shade-50: #F0F1F5;
+    --chat--color-light-shade-100: #D8DCE5;
     --chat--color-medium: #3A3B42;
     --chat--color-dark: #131314; 
     --chat--color-disabled: #555555;
@@ -45,8 +45,8 @@
     --chat--message--border-radius: var(--chat--border-radius);
     --chat--message-line-height: 1.5;
     --chat--message--margin-bottom: calc(var(--chat--spacing) * 1);
-    --chat--message--bot--background: var(--chat--color-white);
-    --chat--message--bot--color: var(--chat--color-dark);
+    --chat--message--bot--background: var(--chat--color-dark);
+    --chat--message--bot--color: var(--chat--color-white);
     --chat--message--bot--border: none;
     --chat--message--user--background: var(--chat--color--secondary);
     --chat--message--user--color: var(--chat--color-white);
@@ -260,12 +260,4 @@ body, html {
 #chat-container {
     width: 100%;
     height: 100%;
-}
-
-footer {
-    text-align: center;
-    padding: 0.3rem;
-    color: var(--chat--color-white);
-    font-size: 0.95rem;
-    border-top: 1px solid var(--chat--color-white);
 }
