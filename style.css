@@ -278,7 +278,7 @@ body, html {
     #sidebar {
         width: 100%; 
         height: auto;
-        max-height: 45vh;               
+        max-height: 70vh;               
         border-right: none;
         border-bottom: 1px solid #2A2B32;
         padding: 12px 10px;
@@ -320,7 +320,8 @@ body, html {
         flex: 1 1 auto;             
         min-height: 0; 
         display: flex;    
-        flex-direction: column;         
+        flex-direction: column;    
+        overflow: hidden;     
     }
 
     #chat-container {
