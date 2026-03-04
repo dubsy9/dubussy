@@ -69,8 +69,9 @@
     --chat--input--border: 0;
     --chat--input--border-radius: 0;
     --chat--input--padding: 0.8rem;
-    --chat--input--background: var(--chat--color-white);
-    --chat--input--text-color: initial;
+    --chat--input--background: var(--chat--color-dark);
+    --chat--input--container--background: var(--chat--color-dark);
+    --chat--input--text-color: var(--chat--color-white);
     --chat--input--line-height: 1.5;
     --chat--input--placeholder--font-size: var(--chat--input--font-size);
     --chat--input--border-active: 0;
