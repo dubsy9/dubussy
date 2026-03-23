@@ -149,7 +149,7 @@ async function sendMessage(message, imageBase64 = null) {
         const thinkingSpan = botDiv.querySelector('.thinking-content');
         const contentSpan = botDiv.querySelector('.streaming-content');
         document.getElementById('chat-container').appendChild(botDiv);
-        scrollToBottom();
+        document.getElementById('chat-container').scrollTop = document.getElementById('chat-container').scrollHeight;
 
         while (true) {
             const { done, value } = await reader.read();
@@ -166,12 +166,12 @@ async function sendMessage(message, imageBase64 = null) {
                     if (chunk.message && chunk.message.thinking) {
                         thinkingContent += chunk.message.thinking;
                         thinkingSpan.textContent = thinkingContent;
-                        scrollToBottom();
+                        document.getElementById('chat-container').scrollTop = document.getElementById('chat-container').scrollHeight;
                     }
                     if (chunk.message && chunk.message.content) {
                         botContent += chunk.message.content;
                         contentSpan.textContent = botContent;
-                        scrollToBottom();
+                        document.getElementById('chat-container').scrollTop = document.getElementById('chat-container').scrollHeight;
                     }
                 } catch (e) {
                     // Skip malformed JSON lines
@@ -228,7 +228,7 @@ function appendMessageToChat(role, content, isError = false) {
     `;
 
     container.appendChild(messageDiv);
-    scrollToBottom();
+    container.scrollTop = container.scrollHeight;
 }
 
 function appendLoadingMessage() {
@@ -240,7 +240,7 @@ function appendLoadingMessage() {
         <div class="message-content">Thinking...<span class="message-time">${formatTime(new Date())}</span></div>
     `;
     container.appendChild(loadingDiv);
-    scrollToBottom();
+    container.scrollTop = container.scrollHeight;
     return loadingDiv;
 }
 
@@ -256,14 +256,6 @@ function escapeHtml(text) {
     return div.innerHTML;
 }
 
-function scrollToBottom() {
-    const container = document.getElementById('chat-container');
-    if (container) {
-        // With flex-direction: column, scrollTop = 0 = top, scrollTop = max = bottom
-        // Set to scrollHeight to always show the bottom (where new messages appear)
-        container.scrollTop = container.scrollHeight;
-    }
-}
 
 function toggleFilePreview(show) {
     const attachBtn = document.getElementById('attach-btn');
@@ -372,5 +364,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const container = document.getElementById('chat-container');
     if (container) {
         container.innerHTML = '<div class="chat-message bot"><div class="message-avatar">🤖</div><div class="message-content">Hello! I support vision with image uploads. How can I help you?<span class="message-time">' + formatTime(new Date()) + '</span></div></div>';
+        // Scroll to bottom so new message appears at bottom
+        container.scrollTop = container.scrollHeight;
     }
 });
