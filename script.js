@@ -302,6 +302,13 @@ function setupEventListeners() {
     const sendBtn = document.getElementById('send-btn');
     const clearBtn = document.getElementById('clear-btn');
     const chatInput = document.getElementById('chat-input');
+    const toggleSidebarBtn = document.getElementById('toggle-sidebar');
+
+    if (toggleSidebarBtn) {
+        toggleSidebarBtn.addEventListener('click', () => {
+            document.getElementById('sidebar').classList.toggle('collapsed');
+        });
+    }
 
     if (clearBtn) {
         clearBtn.addEventListener('click', clearChat);
