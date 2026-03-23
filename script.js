@@ -58,25 +58,47 @@ function populateModelSelector(models, defaultModel) {
         return;
     }
 
-    // Add each model as an option
+    // Add each model as an option (only show name, not description)
     models.forEach(model => {
         const option = document.createElement('option');
         option.value = model.name;
-        option.textContent = `${model.name} - ${model.description}`;
+        option.textContent = model.name;
         selector.appendChild(option);
     });
 
     // Set default model if provided, otherwise use first model
-    currentModel = defaultModel && models.find(m => m.name === defaultModel) 
-        ? defaultModel 
-        : models[0].name;
+    // Ensure the model actually exists in the list
+    let selectedModel = defaultModel;
+    if (selectedModel && !models.some(m => m.name === selectedModel)) {
+        selectedModel = null;
+    }
+    if (!selectedModel) {
+        selectedModel = models[0].name;
+    }
+    currentModel = selectedModel;
     selector.value = currentModel;
+
+    // Update description for the selected model
+    updateModelDescription(models, currentModel);
 
     // Listen for changes
     selector.addEventListener('change', (e) => {
         currentModel = e.target.value;
+        updateModelDescription(models, currentModel);
         console.log('Model changed to:', currentModel);
     });
+}
+
+function updateModelDescription(models, modelName) {
+    const descriptionEl = document.getElementById('model-description');
+    if (!descriptionEl) return;
+
+    const model = models.find(m => m.name === modelName);
+    if (model) {
+        descriptionEl.textContent = model.description;
+    } else {
+        descriptionEl.textContent = '';
+    }
 }
 
 async function initModel() {

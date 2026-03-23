@@ -69,7 +69,8 @@ body, html {
 #sidebar.collapsed .logo,
 #sidebar.collapsed .label span,
 #sidebar.collapsed .nav-item span,
-#sidebar.collapsed .model-selector-container {
+#sidebar.collapsed .model-selector-container,
+#sidebar.collapsed .model-selector-container * {
     display: none;
 }
 
@@ -156,6 +157,13 @@ body, html {
 
 .model-selector-container {
     width: 100%;
+}
+
+.model-description {
+    font-size: 0.8rem;
+    color: #8e8e8e;
+    margin-top: 8px;
+    line-height: 1.4;
 }
 
 .model-selector {
