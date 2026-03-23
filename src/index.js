@@ -64,7 +64,7 @@ async function handleChatRequest(request, env) {
             });
         }
 
-        const ollamaUrl = env.OLLAMA_API_URL || 'https://api.ollama.com/v1';
+        const ollamaUrl = env.OLLAMA_API_URL || 'https://ollama.com';
 
         const ollamaRequest = {
             model: selectedModel,
@@ -78,7 +78,7 @@ async function handleChatRequest(request, env) {
 
         if (stream === true) {
             // Streaming response - forward NDJSON directly
-            const ollamaResponse = await fetch(`${ollamaUrl}/chat`, {
+            const ollamaResponse = await fetch(`${ollamaUrl}/api/chat`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -103,7 +103,7 @@ async function handleChatRequest(request, env) {
         }
 
         // Non-streaming response
-        const response = await fetch(`${ollamaUrl}/chat`, {
+        const response = await fetch(`${ollamaUrl}/api/chat`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -140,9 +140,9 @@ async function handleChatRequest(request, env) {
 
 async function handleModelsRequest(env) {
     try {
-        const ollamaUrl = env.OLLAMA_API_URL || 'https://api.ollama.com/v1';
+        const ollamaUrl = env.OLLAMA_API_URL || 'https://ollama.com';
         
-        const response = await fetch(`${ollamaUrl}/models`, {
+        const response = await fetch(`${ollamaUrl}/api/tags`, {
             headers: {
                 'Authorization': `Bearer ${env.OLLAMA_TOKEN}`
             }
