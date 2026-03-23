@@ -8,11 +8,11 @@ const VALID_IMAGE_PREFIXES = ['data:image/png;base64,', 'data:image/jpeg;base64,
 
 // Static list of available cloud models - used for allowlist validation
 const AVAILABLE_MODELS = [
-    {name: 'devstral-small-2:24b-cloud', description: '', size: 'Cloud'},
-    { name: 'qwen3.5:cloud', description: 'Qwen 3.5 - Alibaba\'s latest model', size: 'Cloud' },
-    { name: 'nemotron-3-super:cloud', description: 'Nemotron 3 Super - NVIDIA\'s enterprise model', size: 'Cloud' },
-    { name: 'mistral-large-3:675b-cloud', description: 'Mistral Large - Strong multilingual capabilities', size: 'Cloud' },
-    { name: 'gemma3:27b-cloud', description: 'Gemma 3 - Google\'s lightweight performer', size: 'Cloud' },
+    {name: 'devstral-small-2:24b-cloud', description: 'Small and effective model', size: 'Cloud'},
+    { name: 'qwen3.5:cloud', description: 'Alibaba\'s latest model', size: 'Cloud' },
+    { name: 'nemotron-3-super:cloud', description: 'NVIDIA\'s enterprise model', size: 'Cloud' },
+    { name: 'mistral-large-3:675b-cloud', description: 'Strong multilingual capabilities', size: 'Cloud' },
+    { name: 'gemma3:27b-cloud', description: 'Google\'s lightweight performer', size: 'Cloud' },
 ];
 
 // Default model is the first item in the available models array
