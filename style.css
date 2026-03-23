@@ -43,15 +43,17 @@ body, html {
     display: flex;
     flex-direction: column;
     padding: 20px 15px;
-    transition: width 0.3s ease;
+    transition: width 0.3s ease, padding 0.3s ease;
     position: relative;
     overflow: hidden;
+    overflow-y: auto;
 }
 
 #sidebar.collapsed {
     width: 70px;
     padding: 20px 10px;
     overflow: hidden;
+    overflow-y: auto;
 }
 
 .sidebar-header {
@@ -556,14 +558,14 @@ body, html {
         flex-direction: column;
     }
 
-    #chat-container {
-        flex: 1;
-        min-height: 0; /* Allow shrinking */
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-        display: flex;
-        flex-direction: column;
-    }
+#chat-container {
+    flex: 1 1 auto;
+    min-height: 0; /* Allow shrinking */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    display: flex;
+    flex-direction: column;
+}
 
     .chat-message {
         max-width: 95%;
