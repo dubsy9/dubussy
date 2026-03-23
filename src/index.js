@@ -39,7 +39,17 @@ async function handleChatRequest(request, env) {
         const data = await request.json();
         const { model, messages, image, stream } = data;
 
-        if (!model || !messages || !Array.isArray(messages) || messages.length === 0) {
+        // Use provided model or fall back to DEFAULT_MODEL env var
+        const selectedModel = model || env.DEFAULT_MODEL;
+
+        if (!selectedModel) {
+            return new Response(JSON.stringify({ error: 'no_model_specified' }), {
+                status: 400,
+                headers: { 'Content-Type': 'application/json' }
+            });
+        }
+
+        if (!messages || !Array.isArray(messages) || messages.length === 0) {
             return new Response(JSON.stringify({ error: 'invalid_request' }), {
                 status: 400,
                 headers: { 'Content-Type': 'application/json' }
@@ -57,7 +67,7 @@ async function handleChatRequest(request, env) {
         const ollamaUrl = env.OLLAMA_API_URL || 'https://api.ollama.com/v1';
 
         const ollamaRequest = {
-            model: model,
+            model: selectedModel,
             messages: messages,
             stream: stream === true
         };

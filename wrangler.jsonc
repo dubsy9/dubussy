@@ -10,5 +10,9 @@
   },
   "observability": {
     "enabled": true
+  },
+  "vars": {
+    "DEFAULT_MODEL": "devstral-small-2:24b-cloud",
+    "OLLAMA_API_URL": "https://api.ollama.com/v1"
   }
 }
