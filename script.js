@@ -29,41 +29,61 @@ async function fetchConfig() {
     }
 }
 
-function populateModelSelector(defaultModel) {
+async function fetchModels() {
+    try {
+        const response = await fetch('/api/models');
+        if (!response.ok) {
+            throw new Error('Failed to fetch models');
+        }
+        const data = await response.json();
+        return data.models || [];
+    } catch (error) {
+        console.error('Models fetch error:', error);
+        return [];
+    }
+}
+
+function populateModelSelector(models, defaultModel) {
     const selector = document.getElementById('model-selector');
     if (!selector) return;
 
     // Clear existing options
     selector.innerHTML = '';
 
-    if (!defaultModel) {
+    if (!models || models.length === 0) {
         const option = document.createElement('option');
         option.value = '';
-        option.textContent = 'No model configured';
+        option.textContent = 'No models available';
         selector.appendChild(option);
         return;
     }
 
-    // Add the single model option
-    const option = document.createElement('option');
-    option.value = defaultModel;
-    option.textContent = defaultModel;
-    selector.appendChild(option);
+    // Add each model as an option
+    models.forEach(model => {
+        const option = document.createElement('option');
+        option.value = model.name;
+        option.textContent = `${model.name} - ${model.description}`;
+        selector.appendChild(option);
+    });
 
-    // Set as current model
-    currentModel = defaultModel;
+    // Set default model if provided, otherwise use first model
+    currentModel = defaultModel && models.find(m => m.name === defaultModel) 
+        ? defaultModel 
+        : models[0].name;
     selector.value = currentModel;
 
-    // Listen for changes (though there's only one option)
+    // Listen for changes
     selector.addEventListener('change', (e) => {
         currentModel = e.target.value;
+        console.log('Model changed to:', currentModel);
     });
 }
 
 async function initModel() {
-    const config = await fetchConfig();
-    populateModelSelector(config.defaultModel);
+    const [config, models] = await Promise.all([fetchConfig(), fetchModels()]);
+    populateModelSelector(models, config.defaultModel);
     console.log('Loaded config:', config);
+    console.log('Available models:', models);
 }
 
 async function sendMessage(message, imageBase64 = null) {

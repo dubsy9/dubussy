@@ -3,6 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; form-action 'self'; base-uri 'self'; frame-ancestors 'none';">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta name="permissions-policy" content="geolocation=(), microphone=(), camera=()">
     <title>Request Access | Dubussy</title>
     <link href="./style.css" rel="stylesheet" />
 </head>
@@ -11,7 +17,7 @@
         <h1>Join the Paradise</h1>
         <p>Access our private suite of AI tools. Your request will be reviewed by an administrator.</p>
         <form action="/submit" method="POST">
-            <input id="email-field" type="email" name="email" placeholder="email@example.com" required>
+            <input id="email-field" type="email" name="email" placeholder="email@example.com" required maxlength="254">
             <button type="submit">Submit Request</button>
         </form>
     </div>
