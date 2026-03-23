@@ -15,6 +15,9 @@ const AVAILABLE_MODELS = [
     { name: 'gemma3:27b-cloud', description: 'Gemma 3 - Google\'s lightweight performer', size: 'Cloud' },
 ];
 
+// Default model is the first item in the available models array
+const DEFAULT_MODEL = AVAILABLE_MODELS[0].name;
+
 const ALLOWED_MODEL_NAMES = AVAILABLE_MODELS.map(m => m.name);
 
 // Cleanup old rate limit entries periodically (every 100 calls)
@@ -296,7 +299,7 @@ async function handleChatRequest(request, env, ip) {
         const { model, messages, image, stream } = data;
 
         // Validate model against allowlist
-        const modelValidation = validateModel(model || env.DEFAULT_MODEL);
+        const modelValidation = validateModel(model || DEFAULT_MODEL);
         if (!modelValidation.valid) {
             return new Response(JSON.stringify({ error: modelValidation.error }), {
                 status: 400,
@@ -304,7 +307,7 @@ async function handleChatRequest(request, env, ip) {
             });
         }
 
-        const selectedModel = model || env.DEFAULT_MODEL;
+        const selectedModel = model || DEFAULT_MODEL;
 
         // Validate conversation history
         const historyValidation = sanitizeConversationHistory(messages);
@@ -644,7 +647,7 @@ export default {
         // GET /api/config - Config endpoint
         if (path === '/api/config' && request.method === 'GET') {
             const response = new Response(JSON.stringify({
-                defaultModel: env.DEFAULT_MODEL || null,
+                defaultModel: DEFAULT_MODEL,
                 apiUrl: env.OLLAMA_API_URL || null
             }), {
                 headers: { 
