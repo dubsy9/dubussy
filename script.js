@@ -163,13 +163,12 @@ async function sendMessage(message, imageBase64 = null) {
         botDiv.innerHTML = `
             <div class="message-avatar">🤖</div>
             <div class="message-content">
-                <div class="thinking-content"></div>
                 <span class="streaming-content"></span>
                 <span class="message-time">${formatTime(new Date())}</span>
             </div>
         `;
-        const thinkingSpan = botDiv.querySelector('.thinking-content');
         const contentSpan = botDiv.querySelector('.streaming-content');
+        let thinkingSpan = null;
         document.getElementById('chat-container').appendChild(botDiv);
         document.getElementById('chat-container').scrollTop = document.getElementById('chat-container').scrollHeight;
 
@@ -187,6 +186,13 @@ async function sendMessage(message, imageBase64 = null) {
                     const chunk = JSON.parse(line);
                     if (chunk.message && chunk.message.thinking) {
                         thinkingContent += chunk.message.thinking;
+                        // Create thinking block only when first thinking content is received
+                        if (!thinkingSpan) {
+                            const thinkingDiv = document.createElement('div');
+                            thinkingDiv.className = 'thinking-content';
+                            contentSpan.parentNode.insertBefore(thinkingDiv, contentSpan);
+                            thinkingSpan = thinkingDiv;
+                        }
                         thinkingSpan.textContent = thinkingContent;
                         document.getElementById('chat-container').scrollTop = document.getElementById('chat-container').scrollHeight;
                     }
