@@ -79,7 +79,7 @@ function addSecurityHeaders(headers) {
 }
 
 // Content Security Policy
-const CSP_POLICY = "default-src 'self'; script-src 'self' https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://ollama.com; form-action 'self'; base-uri 'self'; frame-ancestors 'none';";
+const CSP_POLICY = "default-src 'self'; script-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://static.cloudflareinsights.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://ollama.com https://cloudflareinsights.com; form-action 'self'; base-uri 'self'; frame-ancestors 'none';";
 
 function addCSPHeader(headers) {
     headers.set('Content-Security-Policy', CSP_POLICY);

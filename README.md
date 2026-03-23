@@ -33,7 +33,6 @@ Includes a `/request` page for users to submit access requests that are sent to 
 ### Backend (Cloudflare Worker)
 - `/api/chat` - POST endpoint for AI chat conversations
 - `/api/models` - GET endpoint to fetch available Ollama models
-- `/api/config` - GET endpoint for configuration (default model, API URL)
 - `/api/csrf-token` - GET endpoint for CSRF token generation
 - `/submit` - POST endpoint for access requests (sends to Discord)
 
@@ -47,7 +46,6 @@ Required:
 ```env
 OLLAMA_API_URL=https://ollama.com
 OLLAMA_TOKEN=your_ollama_cloud_api_key
-DEFAULT_MODEL=devstral-small-2:24b-cloud
 DISCORD_BOT_TOKEN=your_bot_token
 DISCORD_USER_ID=your_user_id
 CSRF_SECRET=your_csrf_secret_key
@@ -83,22 +81,22 @@ Fetch list of available Ollama models.
 {
   "success": true,
   "models": [
-    { "name": "qwen3.5:cloud", "description": "Qwen 3.5 - Alibaba's latest model", "size": "Cloud" },
-    { "name": "nemotron-3-super:cloud", "description": "Nemotron 3 Super - NVIDIA's enterprise model", "size": "Cloud" },
-    { "name": "mistral-large-3:675b-cloud", "description": "Mistral Large - Strong multilingual capabilities", "size": "Cloud" },
-    { "name": "gemma3:27b-cloud", "description": "Gemma 3 - Google's lightweight performer", "size": "Cloud" }
+    { "name": "devstral-small-2:24b-cloud", "description": "Small and effective model", "size": "Cloud" },
+    { "name": "qwen3.5:cloud", "description": "Alibaba's latest model", "size": "Cloud" },
+    { "name": "nemotron-3-super:cloud", "description": "NVIDIA's enterprise model", "size": "Cloud" },
+    { "name": "mistral-large-3:675b-cloud", "description": "Strong multilingual capabilities", "size": "Cloud" },
+    { "name": "gemma3:27b-cloud", "description": "Google's lightweight performer", "size": "Cloud" }
   ]
 }
 ```
 
-### `GET /api/config`
-Fetch server configuration.
+### `GET /api/csrf-token`
+Fetch CSRF token for form submissions.
 
 **Response:**
 ```json
 {
-  "defaultModel": "devstral-small-2:24b-cloud",
-  "apiUrl": "https://ollama.com"
+  "csrfToken": "base64_encoded_token"
 }
 ```
 
@@ -132,16 +130,6 @@ Send message to Ollama model.
 }
 ```
 
-### `GET /api/csrf-token`
-Fetch CSRF token for form submissions.
-
-**Response:**
-```json
-{
-  "csrfToken": "base64_encoded_token"
-}
-```
-
 ### `POST /submit`
 Submit access request email.
 
@@ -169,17 +157,19 @@ Submit access request email.
 
 ## Security Features
 
-- **Input Validation:** Message length limits, image size checks, model allowlist
+- **Input Validation:** Message length limits (4096 chars), image size checks (5MB), model allowlist
 - **CSRF Protection:** Token-based validation with IP binding and single-use tokens
 - **Origin Verification:** Validates Origin/Referer headers to prevent CSRF
 - **Rate Limiting:** Configurable limits per endpoint (10/min for chat, 3/min for submit)
-- **Security Headers:** X-Content-Type-Options, X-Frame-Options, CSP, HSTS
+- **Security Headers:** X-Content-Type-Options, X-Frame-Options, X-XSS-Protection, Referrer-Policy, Permissions-Policy
 - **Content Security Policy:** Strict CSP with `frame-ancestors 'none'`
+- **IP-based Rate Limiting:** Tracks requests per IP address with automatic cleanup
+- **Single-use CSRF Tokens:** Tokens are deleted after use for enhanced security
 
 ## Customization
 
 ### Changing Default Model
-Update `DEFAULT_MODEL` environment variable or modify worker configuration in `wrangler.jsonc`.
+Update the `AVAILABLE_MODELS` array in `src/index.js` and set the first model as the default, or modify the `DEFAULT_MODEL` constant.
 
 ### Adding New Models
 Models are curated in `src/index.js` `AVAILABLE_MODELS` array. Update the array to add new models:
@@ -191,3 +181,41 @@ const AVAILABLE_MODELS = [
 
 ### Model Selection
 The frontend automatically populates the model selector from the `/api/models` endpoint. Selecting a model from the dropdown updates the model used for chat requests.
+
+## Configuration
+
+The `wrangler.jsonc` file contains the main configuration:
+```json
+{
+  "name": "dubussy",
+  "main": "src/index.js",
+  "compatibility_date": "2024-04-01",
+  "assets": {
+    "directory": "./",
+    "binding": "ASSETS",
+    "run_worker_first": true
+  },
+  "kv_namespaces": [
+    {
+      "binding": "SITE_DATA",
+      "id": "your_kv_namespace_id"
+    }
+  ]
+}
+```
+
+## Development
+
+For local development, you can use Wrangler CLI:
+```bash
+npm install -g wrangler
+wrangler dev
+```
+
+## Security Best Practices
+
+1. Always use HTTPS in production
+2. Keep your `CSRF_SECRET`, `OLLAMA_TOKEN`, and `DISCORD_BOT_TOKEN` secure
+3. Monitor your Cloudflare Worker logs for security events
+4. Regularly update your model allowlist in `src/index.js`
+5. Consider implementing additional rate limiting for production use

@@ -4,6 +4,8 @@
 bin/
 obj/
 
+.wrangler/
+
 .dev.vars*
 !.dev.vars.example
 .env*
