@@ -259,15 +259,9 @@ function escapeHtml(text) {
 function scrollToBottom() {
     const container = document.getElementById('chat-container');
     if (container) {
-<<<<<<< HEAD
         // With flex-direction: column, scrollTop = 0 = top, scrollTop = max = bottom
         // Set to scrollHeight to always show the bottom (where new messages appear)
         container.scrollTop = container.scrollHeight;
-=======
-        // With flex-direction: column-reverse, scrollTop: 0 = bottom, scrollTop: max = top
-        // Set to 0 to always show the bottom (where new messages appear)
-        container.scrollTop = 0;
->>>>>>> 84870a9c00bb7940c2c05c527d3f944c6b0a60a1
     }
 }
 
