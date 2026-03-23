@@ -10,5 +10,17 @@
   },
   "observability": {
     "enabled": true
+  },
+  "environment": {
+    "variables": {
+      "DEFAULT_MODEL": "devstral-small-2:24b-cloud",
+      "OLLAMA_API_URL": "https://api.ollama.com/v1"
+    },
+    "secrets": {
+      "DISCORD_APPLICATION_ID": "",
+      "DISCORD_BOT_TOKEN": "",
+      "DISCORD_PUBLIC_KEY": "",
+      "OLLAMA_TOKEN": ""
+    }
   }
 }
