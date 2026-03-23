@@ -210,7 +210,7 @@ body, html {
     overflow-x: hidden;
     padding: 10px;
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse; /* Messages start at bottom, go up */
     gap: 15px;
     min-height: 0;
     scrollbar-width: thin;
@@ -337,10 +337,10 @@ body, html {
     #chat-input {
         flex: 1;
         padding: 14px 16px;
-        background: #18181A;
-        border: 1px solid #2A2B32;
+        background: linear-gradient(135deg, #10a37f 0%, #0c8b6a 100%);
+        border: 1px solid #10a37f;
         border-radius: 12px;
-        color: #e3e3e3;
+        color: #fff;
         font-size: 16px; /* Prevents iOS zoom on focus */
         font-family: 'Inter', sans-serif;
         resize: none;
@@ -364,7 +364,7 @@ body, html {
     }
 
 #chat-input::placeholder {
-    color: #555555;
+    color: rgba(255, 255, 255, 0.6);
 }
 
 #file-input {
@@ -536,6 +536,8 @@ body, html {
         min-height: 0; /* Allow shrinking */
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
+        display: flex;
+        flex-direction: column-reverse; /* Messages start at bottom, go up */
     }
 
     .chat-message {
