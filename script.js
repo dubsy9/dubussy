@@ -2,20 +2,6 @@ let currentModel = '';
 let conversationHistory = [];
 let currentImage = null;
 
-// Hardcoded models - update this list as needed
-const AVAILABLE_MODELS = [
-    { name: 'llama-3.2-1b-instruct', label: 'Llama 3.2 1B (Fast)' },
-    { name: 'llama-3.2-3b-instruct', label: 'Llama 3.2 3B' },
-    { name: 'llama-3.2-11b-vision-instruct', label: 'Llama 3.2 11B Vision' },
-    { name: 'llama-3.3-70b-instruct', label: 'Llama 3.3 70B' },
-    { name: 'qwen2.5-1.5b-instruct', label: 'Qwen 2.5 1.5B' },
-    { name: 'qwen2.5-7b-instruct', label: 'Qwen 2.5 7B' },
-    { name: 'gemma-2b-instruct', label: 'Gemma 2B' },
-    { name: 'gemma-7b-instruct', label: 'Gemma 7B' },
-];
-
-const MODEL_DEFAULT = window.DEFAULT_MODEL || AVAILABLE_MODELS[0].name;
-
 const ERROR_MESSAGES = {
     invalid_request: 'Invalid request. Please try again.',
     message_content_required: 'Message could not be processed. Please try again.',
@@ -23,6 +9,7 @@ const ERROR_MESSAGES = {
     internal_error: 'Something went wrong on our end. Please try again.',
     rate_limit_exceeded: 'Too many requests. Please wait a moment before trying again.',
     ollama_not_configured: 'AI service is not configured. Please contact support.',
+    no_default_model: 'No default model configured. Please check configuration.',
 };
 
 function getErrorMessage(errorCode) {
@@ -31,14 +18,39 @@ function getErrorMessage(errorCode) {
 
 function populateModelSelector() {
     const selector = document.getElementById('model-selector');
-    
     if (!selector) return;
+
+    // Clear existing options
+    selector.innerHTML = '';
+
+    const defaultModel = window.DEFAULT_MODEL;
     
-    selector.innerHTML = AVAILABLE_MODELS
-        .map((m, i) => `<option value="${m.name}" ${i === 0 ? 'selected' : ''}>${m.label}</option>`)
-        .join('');
-    
-    currentModel = AVAILABLE_MODELS[0].name;
+    if (!defaultModel) {
+        const option = document.createElement('option');
+        option.value = '';
+        option.textContent = 'No model configured';
+        selector.appendChild(option);
+        return;
+    }
+
+    // Add the single model option
+    const option = document.createElement('option');
+    option.value = defaultModel;
+    option.textContent = defaultModel;
+    selector.appendChild(option);
+
+    // Set as current model
+    currentModel = defaultModel;
+    selector.value = currentModel;
+
+    // Listen for changes (though there's only one option)
+    selector.addEventListener('change', (e) => {
+        currentModel = e.target.value;
+    });
+}
+
+function initModel() {
+    populateModelSelector();
 }
 
 async function sendMessage(message, imageBase64 = null) {
@@ -252,7 +264,6 @@ function clearChat() {
 }
 
 function setupEventListeners() {
-    const modelSelector = document.getElementById('model-selector');
     const fileInput = document.getElementById('file-input');
     const attachBtn = document.getElementById('attach-btn');
     const sendBtn = document.getElementById('send-btn');
@@ -261,17 +272,6 @@ function setupEventListeners() {
 
     if (clearBtn) {
         clearBtn.addEventListener('click', clearChat);
-    }
-    
-    if (modelSelector) {
-        modelSelector.addEventListener('change', (e) => {
-            currentModel = e.target.value;
-            conversationHistory = [];
-            const container = document.getElementById('chat-container');
-            if (container) {
-                container.innerHTML = '<div class="chat-message bot"><div class="message-avatar">🤖</div><div class="message-content">Model changed. Conversation reset.<span class="message-time">' + formatTime(new Date()) + '</span></div></div>';
-            }
-        });
     }
     
     if (fileInput) {
@@ -312,11 +312,11 @@ function setupEventListeners() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    populateModelSelector();
+    initModel();
     setupEventListeners();
 
     const container = document.getElementById('chat-container');
     if (container) {
-        container.innerHTML = '<div class="chat-message bot"><div class="message-avatar">🤖</div><div class="message-content">Hello! Select a model to get started. I support vision models with image uploads.<span class="message-time">' + formatTime(new Date()) + '</span></div></div>';
+        container.innerHTML = '<div class="chat-message bot"><div class="message-avatar">🤖</div><div class="message-content">Hello! I support vision with image uploads. How can I help you?<span class="message-time">' + formatTime(new Date()) + '</span></div></div>';
     }
 });

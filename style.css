@@ -162,6 +162,11 @@ body, html {
     border-color: #10a37f;
 }
 
+.model-selector:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
 #content {
     flex-grow: 1;
     display: flex;
