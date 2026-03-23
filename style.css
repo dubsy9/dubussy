@@ -66,6 +66,14 @@ body, html {
     padding: 0;
 }
 
+#sidebar.collapsed .sidebar-header > #toggle-sidebar {
+    display: flex !important;
+}
+
+#sidebar.collapsed #toggle-sidebar {
+    display: flex;
+}
+
 #sidebar.collapsed .logo,
 #sidebar.collapsed .label span,
 #sidebar.collapsed .nav-item span,
@@ -88,6 +96,9 @@ body, html {
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 10;
+    position: relative;
+    flex-shrink: 0;
 }
 
 #toggle-sidebar:hover {
@@ -488,6 +499,10 @@ body, html {
         height: 50px;
         overflow: hidden;
         padding: 8px 10px;
+    }
+    
+    #sidebar.collapsed #toggle-sidebar {
+        display: flex;
     }
 
     .sidebar-header {
