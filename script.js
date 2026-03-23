@@ -16,15 +16,26 @@ function getErrorMessage(errorCode) {
     return ERROR_MESSAGES[errorCode] || 'Something went wrong. Please try again.';
 }
 
-function populateModelSelector() {
+async function fetchConfig() {
+    try {
+        const response = await fetch('/api/config');
+        if (!response.ok) {
+            throw new Error('Failed to fetch config');
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('Config fetch error:', error);
+        return { defaultModel: null, apiUrl: null };
+    }
+}
+
+function populateModelSelector(defaultModel) {
     const selector = document.getElementById('model-selector');
     if (!selector) return;
 
     // Clear existing options
     selector.innerHTML = '';
 
-    const defaultModel = window.DEFAULT_MODEL;
-    
     if (!defaultModel) {
         const option = document.createElement('option');
         option.value = '';
@@ -49,8 +60,10 @@ function populateModelSelector() {
     });
 }
 
-function initModel() {
-    populateModelSelector();
+async function initModel() {
+    const config = await fetchConfig();
+    populateModelSelector(config.defaultModel);
+    console.log('Loaded config:', config);
 }
 
 async function sendMessage(message, imageBase64 = null) {

@@ -243,6 +243,18 @@ export default {
             return handleModelsRequest(env);
         }
 
+        if (path === '/api/config' && request.method === 'GET') {
+            return new Response(JSON.stringify({
+                defaultModel: env.DEFAULT_MODEL || null,
+                apiUrl: env.OLLAMA_API_URL || null
+            }), {
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Cache-Control': 'no-store'
+                }
+            });
+        }
+
         return env.ASSETS.fetch(request);
     }
 };
