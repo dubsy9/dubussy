@@ -241,7 +241,7 @@ body, html {
 
 .chat-message.user {
     align-self: flex-end;
-    background: linear-gradient(135deg, #d34 0%, #ff4d5e 100%);
+    background: linear-gradient(135deg, #10a37f 0%, #0c8b6a 100%);
     border-top-right-radius: 2px;
 }
 
@@ -337,10 +337,11 @@ body, html {
     #chat-input {
         flex: 1;
         padding: 14px 16px;
-        background: #18181A;
+        background: #2A2B32;
         border: 1px solid #2A2B32;
-        border-radius: 12px;
         color: #e3e3e3;
+        border-radius: 12px;
+        color: #fff;
         font-size: 16px; /* Prevents iOS zoom on focus */
         font-family: 'Inter', sans-serif;
         resize: none;
@@ -364,7 +365,7 @@ body, html {
     }
 
 #chat-input::placeholder {
-    color: #555555;
+    color: rgba(255, 255, 255, 0.6);
 }
 
 #file-input {
@@ -536,6 +537,8 @@ body, html {
         min-height: 0; /* Allow shrinking */
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
+        display: flex;
+        flex-direction: column;
     }
 
     .chat-message {
