@@ -2,7 +2,19 @@ let currentModel = '';
 let conversationHistory = [];
 let currentImage = null;
 
-const MODEL_DEFAULT = window.DEFAULT_MODEL || 'llama-3.2-1b-instruct';
+// Hardcoded models - update this list as needed
+const AVAILABLE_MODELS = [
+    { name: 'llama-3.2-1b-instruct', label: 'Llama 3.2 1B (Fast)' },
+    { name: 'llama-3.2-3b-instruct', label: 'Llama 3.2 3B' },
+    { name: 'llama-3.2-11b-vision-instruct', label: 'Llama 3.2 11B Vision' },
+    { name: 'llama-3.3-70b-instruct', label: 'Llama 3.3 70B' },
+    { name: 'qwen2.5-1.5b-instruct', label: 'Qwen 2.5 1.5B' },
+    { name: 'qwen2.5-7b-instruct', label: 'Qwen 2.5 7B' },
+    { name: 'gemma-2b-instruct', label: 'Gemma 2B' },
+    { name: 'gemma-7b-instruct', label: 'Gemma 7B' },
+];
+
+const MODEL_DEFAULT = window.DEFAULT_MODEL || AVAILABLE_MODELS[0].name;
 
 const ERROR_MESSAGES = {
     invalid_request: 'Invalid request. Please try again.',
@@ -11,34 +23,22 @@ const ERROR_MESSAGES = {
     internal_error: 'Something went wrong on our end. Please try again.',
     rate_limit_exceeded: 'Too many requests. Please wait a moment before trying again.',
     ollama_not_configured: 'AI service is not configured. Please contact support.',
-    models_fetch_failed: 'Could not load available models. Please refresh the page.',
 };
 
 function getErrorMessage(errorCode) {
     return ERROR_MESSAGES[errorCode] || 'Something went wrong. Please try again.';
 }
 
-async function fetchModels() {
+function populateModelSelector() {
     const selector = document.getElementById('model-selector');
     
     if (!selector) return;
     
-    try {
-        const response = await fetch('/api/models');
-        const data = await response.json();
-        
-        if (data.success && data.models.length > 0) {
-            selector.innerHTML = data.models
-                .map((m, i) => `<option value="${m.name}" ${i === 0 ? 'selected' : ''}>${m.name}</option>`)
-                .join('');
-            currentModel = data.models[0].name;
-        } else {
-            selector.innerHTML = '<option value="">No models available</option>';
-        }
-    } catch (error) {
-        console.error('Failed to fetch models:', error);
-        selector.innerHTML = '<option value="">Models unavailable</option>';
-    }
+    selector.innerHTML = AVAILABLE_MODELS
+        .map((m, i) => `<option value="${m.name}" ${i === 0 ? 'selected' : ''}>${m.label}</option>`)
+        .join('');
+    
+    currentModel = AVAILABLE_MODELS[0].name;
 }
 
 async function sendMessage(message, imageBase64 = null) {
@@ -312,7 +312,7 @@ function setupEventListeners() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    fetchModels();
+    populateModelSelector();
     setupEventListeners();
 
     const container = document.getElementById('chat-container');
