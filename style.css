@@ -36,6 +36,8 @@ body, html {
 
 #sidebar {
     width: 260px;
+    min-width: 260px;
+    flex-shrink: 0;
     background-color: #18181A;
     border-right: 1px solid #2A2B32;
     display: flex;
@@ -299,6 +301,18 @@ body, html {
     color: #555555;
     margin-top: 6px;
     text-align: right;
+}
+
+.thinking-content {
+    font-style: italic;
+    color: #8e8e8e;
+    background: rgba(42, 43, 50, 0.3);
+    padding: 8px 12px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    border-left: 2px solid #2A2B32;
 }
 
 @keyframes fadeIn {

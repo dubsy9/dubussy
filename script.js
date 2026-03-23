@@ -102,6 +102,8 @@ async function sendMessage(message, imageBase64 = null) {
 
     const loadingDiv = appendLoadingMessage();
 
+    let thinkingContent = '';
+
     try {
         const payload = {
             model: currentModel,
@@ -138,8 +140,13 @@ async function sendMessage(message, imageBase64 = null) {
         botDiv.className = 'chat-message bot';
         botDiv.innerHTML = `
             <div class="message-avatar">🤖</div>
-            <div class="message-content"><span class="streaming-content"></span><span class="message-time">${formatTime(new Date())}</span></div>
+            <div class="message-content">
+                <div class="thinking-content"></div>
+                <span class="streaming-content"></span>
+                <span class="message-time">${formatTime(new Date())}</span>
+            </div>
         `;
+        const thinkingSpan = botDiv.querySelector('.thinking-content');
         const contentSpan = botDiv.querySelector('.streaming-content');
         document.getElementById('chat-container').appendChild(botDiv);
         scrollToBottom();
@@ -156,6 +163,11 @@ async function sendMessage(message, imageBase64 = null) {
                 if (!line.trim()) continue;
                 try {
                     const chunk = JSON.parse(line);
+                    if (chunk.message && chunk.message.thinking) {
+                        thinkingContent += chunk.message.thinking;
+                        thinkingSpan.textContent = thinkingContent;
+                        scrollToBottom();
+                    }
                     if (chunk.message && chunk.message.content) {
                         botContent += chunk.message.content;
                         contentSpan.textContent = botContent;
