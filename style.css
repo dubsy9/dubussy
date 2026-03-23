@@ -51,6 +51,7 @@ body, html {
 #sidebar.collapsed {
     width: 70px;
     padding: 20px 10px;
+    overflow: hidden;
 }
 
 .sidebar-header {
@@ -232,6 +233,7 @@ body, html {
     flex-direction: column;
     gap: 15px;
     min-height: 0;
+    justify-content: flex-end;
     scrollbar-width: thin;
     scrollbar-color: #2A2B32 #18181A;
 }
