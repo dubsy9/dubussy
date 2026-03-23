@@ -205,12 +205,12 @@ body, html {
 #chat-container {
     flex: 1;
     overflow-y: auto;
+    overflow-x: hidden;
     padding: 10px;
     display: flex;
     flex-direction: column;
     gap: 15px;
-    height: 100%;
-    justify-content: flex-end;
+    min-height: 0;
     scrollbar-width: thin;
     scrollbar-color: #2A2B32 #18181A;
 }
