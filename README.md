@@ -9,6 +9,7 @@ Includes a `/request` page for users to submit access requests that are sent to 
 - **AI Chat Assistant** - Custom chat UI powered by Ollama Cloud API with multiple model selection
 - **Vision Support** - Upload images (PNG, JPG, WEBP) for multimodal model interactions
 - **Model Selection** - Choose from available Ollama cloud models via dropdown selector
+- **Conditional Thinking Display** - Thinking block only shown when model provides reasoning content
 - **Rate Limiting** - 10 requests per minute per IP for `/api/chat`, 3 per minute for `/submit`
 - **Request System** - Email submission form with CSRF protection that sends notifications to Discord
 - **Security** - Comprehensive security headers, input validation, and origin verification
