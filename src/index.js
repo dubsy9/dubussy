@@ -659,8 +659,19 @@ export default {
         // Serve static assets
         const response = await env.ASSETS.fetch(request);
         if (response.status === 200) {
-            addSecurityHeaders(response.headers);
-            addCSPHeader(response.headers);
+            // Create a new mutable Headers object to avoid immutable headers issue
+            const newHeaders = new Headers();
+            // Copy content-type from original response
+            const contentType = response.headers.get('content-type');
+            if (contentType) {
+                newHeaders.set('content-type', contentType);
+            }
+            addSecurityHeaders(newHeaders);
+            addCSPHeader(newHeaders);
+            return new Response(response.body, {
+                status: response.status,
+                headers: newHeaders
+            });
         }
         return response;
     }
