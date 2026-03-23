@@ -21,7 +21,6 @@ body, html {
     font-family: 'Inter', sans-serif;
     background-color: #131314;
     color: #e3e3e3;
-    overflow: hidden;
     /* Prevent pull-to-refresh and bounce effects on iOS */
     overscroll-behavior: none;
 }
@@ -52,7 +51,6 @@ body, html {
 #sidebar.collapsed {
     width: 70px;
     padding: 20px 10px;
-    overflow: hidden;
     overflow-y: auto;
 }
 
@@ -117,6 +115,9 @@ body, html {
 
 #sidebar.collapsed .nav-item {
     justify-content: center;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 #sidebar.collapsed .label {
