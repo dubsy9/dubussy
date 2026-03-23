@@ -44,7 +44,6 @@ body, html {
     padding: 20px 15px;
     transition: width 0.3s ease, padding 0.3s ease;
     position: relative;
-    overflow: hidden;
     overflow-y: auto;
 }
 
@@ -480,10 +479,9 @@ body, html {
 @media screen and (max-width: 768px) {
 
     #app-wrapper {
-        flex-direction: column;     
+        flex-direction: column;
         height: 100vh;
         height: 100dvh; /* Dynamic viewport height for iOS keyboard */
-        overflow: hidden;
     }
 
     #sidebar {
@@ -500,9 +498,8 @@ body, html {
     }
 
     #sidebar.collapsed {
-        max-height: 50px;           
+        max-height: 50px;
         height: 50px;
-        overflow: hidden;
         padding: 8px 10px;
     }
     
