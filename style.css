@@ -210,7 +210,7 @@ body, html {
     overflow-x: hidden;
     padding: 10px;
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse; /* Messages start at bottom, go up */
     gap: 15px;
     min-height: 0;
     scrollbar-width: thin;
@@ -337,9 +337,14 @@ body, html {
     #chat-input {
         flex: 1;
         padding: 14px 16px;
+<<<<<<< HEAD
         background: #2A2B32;
         border: 1px solid #2A2B32;
         color: #e3e3e3;
+=======
+        background: linear-gradient(135deg, #10a37f 0%, #0c8b6a 100%);
+        border: 1px solid #10a37f;
+>>>>>>> 84870a9c00bb7940c2c05c527d3f944c6b0a60a1
         border-radius: 12px;
         color: #fff;
         font-size: 16px; /* Prevents iOS zoom on focus */
@@ -538,7 +543,11 @@ body, html {
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
         display: flex;
+<<<<<<< HEAD
         flex-direction: column;
+=======
+        flex-direction: column-reverse; /* Messages start at bottom, go up */
+>>>>>>> 84870a9c00bb7940c2c05c527d3f944c6b0a60a1
     }
 
     .chat-message {
