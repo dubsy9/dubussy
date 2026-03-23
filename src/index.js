@@ -5,6 +5,15 @@ async function checkRateLimit(ip) {
     const windowMs = 60_000;
     const limit = 10;
     
+    // Cleanup old entries periodically (every 100 calls)
+    if (RATE_LIMIT_MAP.size > 100 && Math.random() < 0.1) {
+        for (const [key, record] of RATE_LIMIT_MAP) {
+            if (now > record.resetTime) {
+                RATE_LIMIT_MAP.delete(key);
+            }
+        }
+    }
+    
     if (!RATE_LIMIT_MAP.has(ip)) {
         RATE_LIMIT_MAP.set(ip, { count: 1, resetTime: now + windowMs });
         return true;
@@ -28,35 +37,62 @@ async function checkRateLimit(ip) {
 async function handleChatRequest(request, env) {
     try {
         const data = await request.json();
-        const { model, messages, image } = data;
+        const { model, messages, image, stream } = data;
 
         if (!model || !messages || !Array.isArray(messages) || messages.length === 0) {
-            return new Response(JSON.stringify({ error: 'invalid_request' }), { 
+            return new Response(JSON.stringify({ error: 'invalid_request' }), {
                 status: 400,
-                headers: { 'Content-Type': 'application/json' } 
+                headers: { 'Content-Type': 'application/json' }
             });
         }
 
         const latestMessage = messages[messages.length - 1];
         if (!latestMessage.content || (typeof latestMessage.content !== 'string' && !latestMessage.content.text)) {
-            return new Response(JSON.stringify({ error: 'message_content_required' }), { 
+            return new Response(JSON.stringify({ error: 'message_content_required' }), {
                 status: 400,
-                headers: { 'Content-Type': 'application/json' } 
+                headers: { 'Content-Type': 'application/json' }
             });
         }
 
         const ollamaUrl = env.OLLAMA_API_URL || 'https://api.ollama.com/v1';
-        
+
         const ollamaRequest = {
             model: model,
             messages: messages,
-            stream: false
+            stream: stream === true
         };
 
         if (image && typeof image === 'string' && image.length > 0) {
             ollamaRequest.images = [image];
         }
 
+        if (stream === true) {
+            // Streaming response - forward NDJSON directly
+            const ollamaResponse = await fetch(`${ollamaUrl}/chat`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${env.OLLAMA_TOKEN}`
+                },
+                body: JSON.stringify(ollamaRequest)
+            });
+
+            if (!ollamaResponse.ok) {
+                return new Response(JSON.stringify({ error: 'ollama_api_error' }), {
+                    status: 502,
+                    headers: { 'Content-Type': 'application/json' }
+                });
+            }
+
+            return new Response(ollamaResponse.body, {
+                headers: {
+                    'Content-Type': 'application/x-ndjson',
+                    'Transfer-Encoding': 'chunked'
+                }
+            });
+        }
+
+        // Non-streaming response
         const response = await fetch(`${ollamaUrl}/chat`, {
             method: 'POST',
             headers: {
@@ -68,15 +104,15 @@ async function handleChatRequest(request, env) {
 
         if (!response.ok) {
             const errorData = await response.json().catch(() => ({}));
-            return new Response(JSON.stringify({ error: 'ollama_api_error' }), { 
+            return new Response(JSON.stringify({ error: 'ollama_api_error' }), {
                 status: 502,
-                headers: { 'Content-Type': 'application/json' } 
+                headers: { 'Content-Type': 'application/json' }
             });
         }
 
         const result = await response.json();
-        
-        return new Response(JSON.stringify({ 
+
+        return new Response(JSON.stringify({
             success: true,
             message: result.message.content
         }), {
@@ -85,9 +121,9 @@ async function handleChatRequest(request, env) {
 
     } catch (error) {
         console.error('Chat error:', error);
-        return new Response(JSON.stringify({ error: 'internal_error' }), { 
+        return new Response(JSON.stringify({ error: 'internal_error' }), {
             status: 500,
-            headers: { 'Content-Type': 'application/json' } 
+            headers: { 'Content-Type': 'application/json' }
         });
     }
 }
@@ -179,7 +215,7 @@ export default {
         }
 
         if (path === '/api/chat' && request.method === 'POST') {
-            if (!checkRateLimit(ip)) {
+            if (!(await checkRateLimit(ip))) {
                 return new Response(JSON.stringify({ error: 'rate_limit_exceeded' }), { 
                     status: 429,
                     headers: { 'Content-Type': 'application/json' } 

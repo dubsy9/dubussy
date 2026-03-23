@@ -4,6 +4,20 @@ let currentImage = null;
 
 const MODEL_DEFAULT = window.DEFAULT_MODEL || 'llama-3.2-1b-instruct';
 
+const ERROR_MESSAGES = {
+    invalid_request: 'Invalid request. Please try again.',
+    message_content_required: 'Message could not be processed. Please try again.',
+    ollama_api_error: 'AI service temporarily unavailable. Please try again in a moment.',
+    internal_error: 'Something went wrong on our end. Please try again.',
+    rate_limit_exceeded: 'Too many requests. Please wait a moment before trying again.',
+    ollama_not_configured: 'AI service is not configured. Please contact support.',
+    models_fetch_failed: 'Could not load available models. Please refresh the page.',
+};
+
+function getErrorMessage(errorCode) {
+    return ERROR_MESSAGES[errorCode] || 'Something went wrong. Please try again.';
+}
+
 async function fetchModels() {
     const selector = document.getElementById('model-selector');
     
@@ -23,75 +37,139 @@ async function fetchModels() {
         }
     } catch (error) {
         console.error('Failed to fetch models:', error);
-        selector.innerHTML = '<option value="">Error loading models</option>';
+        selector.innerHTML = '<option value="">Models unavailable</option>';
     }
 }
 
 async function sendMessage(message, imageBase64 = null) {
-    const container = document.getElementById('chat-container');
     const input = document.getElementById('chat-input');
-    
+
     if (!message.trim() && !imageBase64) return;
-    
+
     const userMessage = { role: 'user', content: message };
     conversationHistory.push(userMessage);
-    
+
     appendMessageToChat('user', message, imageBase64);
-    
+
     input.value = '';
     currentImage = null;
     toggleFilePreview(false);
-    
+
     const loadingDiv = appendLoadingMessage();
-    
+
     try {
         const payload = {
             model: currentModel,
-            messages: conversationHistory
+            messages: conversationHistory,
+            stream: true
         };
-        
+
         if (imageBase64) {
             payload.image = imageBase64;
         }
-        
+
         const response = await fetch('/api/chat', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
         });
-        
-        const data = await response.json();
-        
-        if (response.ok && data.success) {
-            const botMessage = { role: 'assistant', content: data.message };
-            conversationHistory.push(botMessage);
-            
+
+        if (!response.ok) {
+            const data = await response.json().catch(() => ({}));
             removeMessage(loadingDiv);
-            appendMessageToChat('bot', data.message);
-        } else {
-            removeMessage(loadingDiv);
-            appendMessageToChat('bot', `Error: ${data.error || 'Something went wrong'}`, true);
+            appendMessageToChat('bot', getErrorMessage(data.error), true);
+            return;
         }
+
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+        let botContent = '';
+        let buffer = '';
+
+        removeMessage(loadingDiv);
+
+        // Create bot message shell for incremental updates
+        const botDiv = document.createElement('div');
+        botDiv.className = 'chat-message bot';
+        botDiv.innerHTML = `
+            <div class="message-avatar">🤖</div>
+            <div class="message-content"><span class="streaming-content"></span><span class="message-time">${formatTime(new Date())}</span></div>
+        `;
+        const contentSpan = botDiv.querySelector('.streaming-content');
+        document.getElementById('chat-container').appendChild(botDiv);
+        scrollToBottom();
+
+        while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+
+            buffer += decoder.decode(value, { stream: true });
+            const lines = buffer.split('\n');
+            buffer = lines.pop() || '';
+
+            for (const line of lines) {
+                if (!line.trim()) continue;
+                try {
+                    const chunk = JSON.parse(line);
+                    if (chunk.message && chunk.message.content) {
+                        botContent += chunk.message.content;
+                        contentSpan.textContent = botContent;
+                        scrollToBottom();
+                    }
+                } catch (e) {
+                    // Skip malformed JSON lines
+                }
+            }
+        }
+
+        // Final message
+        if (botContent) {
+            conversationHistory.push({ role: 'assistant', content: botContent });
+            // Replace span with final escaped HTML
+            contentSpan.outerHTML = escapeHtml(botContent);
+        } else {
+            // Remove empty bot message if no content was received
+            removeMessage(botDiv);
+        }
+
+        // Handle done: true final chunk with any remaining buffer
+        if (buffer.trim()) {
+            try {
+                const chunk = JSON.parse(buffer);
+                if (chunk.message && chunk.message.content && !botContent.includes(chunk.message.content)) {
+                    botContent += chunk.message.content;
+                    contentSpan.textContent = botContent;
+                }
+            } catch (e) {
+                // Ignore final parse error
+            }
+        }
+
     } catch (error) {
         console.error('Chat error:', error);
         removeMessage(loadingDiv);
-        appendMessageToChat('bot', 'Connection error. Please try again.', true);
+        appendMessageToChat('bot', 'Connection error. Please check your internet and try again.', true);
     }
+}
+
+function formatTime(date) {
+    return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
 }
 
 function appendMessageToChat(role, content, isError = false) {
     const container = document.getElementById('chat-container');
     const messageDiv = document.createElement('div');
     messageDiv.className = `chat-message ${role}`;
-    
+
     const avatar = role === 'user' ? '👤' : '🤖';
     const errorClass = isError ? ' error' : '';
-    
+    const time = formatTime(new Date());
+
     messageDiv.innerHTML = `
         <div class="message-avatar">${avatar}</div>
-        <div class="message-content${errorClass}">${escapeHtml(content)}</div>
+        <div class="message-content${errorClass}">${escapeHtml(content)}<span class="message-time">${time}</span></div>
     `;
-    
+
     container.appendChild(messageDiv);
     scrollToBottom();
 }
@@ -102,7 +180,7 @@ function appendLoadingMessage() {
     loadingDiv.className = 'chat-message bot loading';
     loadingDiv.innerHTML = `
         <div class="message-avatar">🤖</div>
-        <div class="message-content">Thinking...</div>
+        <div class="message-content">Thinking...<span class="message-time">${formatTime(new Date())}</span></div>
     `;
     container.appendChild(loadingDiv);
     scrollToBottom();
@@ -129,13 +207,15 @@ function scrollToBottom() {
 }
 
 function toggleFilePreview(show) {
-    const btn = document.getElementById('send-btn');
-    if (!btn) return;
+    const attachBtn = document.getElementById('attach-btn');
+    const sendBtn = document.getElementById('send-btn');
     
-    if (show) {
-        btn.style.opacity = '1';
-    } else {
-        btn.style.opacity = '0.5';
+    if (attachBtn) {
+        attachBtn.classList.toggle('active', show);
+    }
+    
+    if (sendBtn) {
+        sendBtn.style.opacity = show ? '1' : '0.5';
     }
 }
 
@@ -161,11 +241,27 @@ async function handleFileSelect(file) {
     reader.readAsDataURL(file);
 }
 
+function clearChat() {
+    conversationHistory = [];
+    currentImage = null;
+    const container = document.getElementById('chat-container');
+    if (container) {
+        container.innerHTML = '<div class="chat-message bot"><div class="message-avatar">🤖</div><div class="message-content">Chat cleared. How can I help you?<span class="message-time">' + formatTime(new Date()) + '</span></div></div>';
+    }
+    toggleFilePreview(false);
+}
+
 function setupEventListeners() {
     const modelSelector = document.getElementById('model-selector');
     const fileInput = document.getElementById('file-input');
+    const attachBtn = document.getElementById('attach-btn');
     const sendBtn = document.getElementById('send-btn');
+    const clearBtn = document.getElementById('clear-btn');
     const chatInput = document.getElementById('chat-input');
+
+    if (clearBtn) {
+        clearBtn.addEventListener('click', clearChat);
+    }
     
     if (modelSelector) {
         modelSelector.addEventListener('change', (e) => {
@@ -173,7 +269,7 @@ function setupEventListeners() {
             conversationHistory = [];
             const container = document.getElementById('chat-container');
             if (container) {
-                container.innerHTML = '<div class="chat-message bot"><div class="message-avatar">🤖</div><div class="message-content">Model changed. Conversation reset.</div></div>';
+                container.innerHTML = '<div class="chat-message bot"><div class="message-avatar">🤖</div><div class="message-content">Model changed. Conversation reset.<span class="message-time">' + formatTime(new Date()) + '</span></div></div>';
             }
         });
     }
@@ -181,6 +277,12 @@ function setupEventListeners() {
     if (fileInput) {
         fileInput.addEventListener('change', (e) => {
             handleFileSelect(e.target.files[0]);
+        });
+    }
+    
+    if (attachBtn) {
+        attachBtn.addEventListener('click', () => {
+            fileInput.click();
         });
     }
     
@@ -197,15 +299,24 @@ function setupEventListeners() {
                 sendMessage(chatInput.value, currentImage);
             }
         });
+        
+        // Update send button opacity based on text content
+        chatInput.addEventListener('input', () => {
+            const sendBtn = document.getElementById('send-btn');
+            if (sendBtn) {
+                const hasContent = chatInput.value.trim().length > 0 || currentImage !== null;
+                sendBtn.style.opacity = hasContent ? '1' : '0.5';
+            }
+        });
     }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
     fetchModels();
     setupEventListeners();
-    
+
     const container = document.getElementById('chat-container');
     if (container) {
-        container.innerHTML = '<div class="chat-message bot"><div class="message-avatar">🤖</div><div class="message-content">Hello! Select a model to get started. I support vision/models with image uploads.</div></div>';
+        container.innerHTML = '<div class="chat-message bot"><div class="message-avatar">🤖</div><div class="message-content">Hello! Select a model to get started. I support vision models with image uploads.<span class="message-time">' + formatTime(new Date()) + '</span></div></div>';
     }
 });

@@ -8,5 +8,3 @@ obj/
 !.dev.vars.example
 .env*
 !.env.example
-
-PLAN.md

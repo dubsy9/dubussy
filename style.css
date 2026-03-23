@@ -187,6 +187,7 @@ body, html {
     flex-direction: column;
     gap: 15px;
     height: 100%;
+    justify-content: flex-end;
     scrollbar-width: thin;
     scrollbar-color: #2A2B32 #18181A;
 }
@@ -271,6 +272,18 @@ body, html {
     color: #ff6b6b;
 }
 
+.message-time {
+    display: block;
+    font-size: 0.7rem;
+    color: #555555;
+    margin-top: 6px;
+    text-align: right;
+}
+
+.streaming-content {
+    /* Streaming text updates inline */
+}
+
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
@@ -285,6 +298,7 @@ body, html {
     gap: 10px;
     align-items: flex-end;
     position: relative;
+    flex-wrap: nowrap;
 }
 
 #chat-input {
@@ -312,14 +326,35 @@ body, html {
     color: #555555;
 }
 
-.file-upload-container {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
 #file-input {
     display: none;
+}
+
+.attach-btn {
+    background: transparent;
+    color: #8e8e8e;
+    border: 1px solid #2A2B32;
+    border-radius: 8px;
+    padding: 10px 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 54px;
+    min-width: 44px;
+}
+
+.attach-btn:hover {
+    color: #10a37f;
+    border-color: #10a37f;
+    background: rgba(16, 163, 127, 0.1);
+}
+
+.attach-btn.active {
+    color: #10a37f;
+    border-color: #10a37f;
+    background: rgba(16, 163, 127, 0.15);
 }
 
 .send-btn {
@@ -354,6 +389,27 @@ body, html {
 
 .send-btn:hover svg {
     transform: translateX(2px);
+}
+
+.clear-btn {
+    background: transparent;
+    color: #8e8e8e;
+    border: 1px solid #2A2B32;
+    border-radius: 8px;
+    padding: 10px 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 54px;
+    min-width: 44px;
+}
+
+.clear-btn:hover {
+    color: #d34;
+    border-color: #d34;
+    background: rgba(211, 51, 68, 0.1);
 }
 
 @media screen and (max-width: 768px) {
@@ -453,6 +509,12 @@ body, html {
         padding: 8px 12px;
         width: 100%;
         justify-content: center;
+    }
+
+    .clear-btn {
+        height: 48px;
+        min-width: 48px;
+        padding: 8px 12px;
     }
 }
 

@@ -2,6 +2,8 @@
 
 AI-powered web application built with Cloudflare Pages and Workers. Features customizable Ollama cloud models with vision support and access request system.
 
+Includes a `/request` page for users to submit access requests that are sent to Discord via DM.
+
 ## Features
 
 - **AI Chat Assistant** - Custom chat UI powered by Ollama Cloud API with multiple model selection
@@ -31,24 +33,27 @@ AI-powered web application built with Cloudflare Pages and Workers. Features cus
 - `/api/models` - GET endpoint to fetch available Ollama models
 - `/submit` - POST endpoint for access requests (sends to Discord)
 
+### Additional Pages
+- `/request` - Access request form with email submission
+- `/thanks` - Confirmation page after submitting request
+
 ### Environment Variables (Configure in Cloudflare Dashboard)
 ```env
 OLLAMA_API_URL=https://api.ollama.com/v1
-OLLAMA_API_KEY=your_ollama_cloud_api_key
-DEFAULT_MODEL=llama-3.2-1b-instruct
+OLLAMA_TOKEN=your_ollama_cloud_api_key
+DEFAULT_MODEL=devstral-small-2:24b-cloud
 DISCORD_BOT_TOKEN=your_bot_token
 DISCORD_USER_ID=your_user_id
 ```
 
 ## Deployment
 
-This project uses Cloudflare Pages automated deployments. No manual build step required.
+This project uses Cloudflare Pages with a single Cloudflare Worker (configured via `wrangler.jsonc` with `run_worker_first: true`). No manual build step required.
 
 1. Push changes to main branch
 2. Cloudflare Pages automatically rebuilds and deploys
 3. Configure environment variables in Cloudflare Dashboard
-4. Configure Worker routes in Cloudflare Dashboard:
-   - Route `/api/models` and `/api/chat` to the worker
+4. The Worker handles `/api/*` routes and `/submit` automatically; static assets are served for all other routes
 
 ## Getting Started
 
@@ -56,8 +61,7 @@ This project uses Cloudflare Pages automated deployments. No manual build step r
 2. Create a Cloudflare Pages project
 3. Connect to your Git repository
 4. Configure environment variables in project settings
-5. Set up Worker binding for `/api/*` routes
-6. Deploy and configure Ollama Cloud API key
+5. Deploy and configure Ollama Cloud API key
 
 ## API Endpoints
 
