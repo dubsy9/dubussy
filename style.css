@@ -308,10 +308,9 @@ body, html {
 }
 
 .message-content {
-    line-height: 1.6;
     font-size: 0.95rem;
     word-wrap: break-word;
-    white-space: pre-wrap;
+    white-space: normal;
 }
 
 .message-content.error {
@@ -322,7 +321,6 @@ body, html {
     display: block;
     font-size: 0.7rem;
     color: #555555;
-    margin-top: 6px;
     text-align: right;
 }
 
@@ -333,9 +331,11 @@ body, html {
     padding: 8px 12px;
     border-radius: 6px;
     margin-bottom: 8px;
+    margin-top: 4px;
     font-size: 0.85rem;
     line-height: 1.5;
     border-left: 2px solid #2A2B32;
+    white-space: pre-line;
 }
 
 @keyframes fadeIn {
@@ -565,7 +565,7 @@ body, html {
 
     .chat-message {
         max-width: 95%;
-        padding: 10px 12px;
+        padding: 10px 10px;
     }
 
     .message-content {

@@ -193,7 +193,7 @@ async function sendMessage(message, imageBase64 = null) {
                             contentSpan.parentNode.insertBefore(thinkingDiv, contentSpan);
                             thinkingSpan = thinkingDiv;
                         }
-                        thinkingSpan.textContent = thinkingContent;
+                        thinkingSpan.textContent = thinkingContent.trim();
                         document.getElementById('chat-container').scrollTop = document.getElementById('chat-container').scrollHeight;
                     }
                     if (chunk.message && chunk.message.content) {
